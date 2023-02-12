@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activitys.DetalheFilmeActivity"
+    android:background="@color/gray_dark"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_poster_horiz_filme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center_horizontal"
+            android:alpha="0.3" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/height"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/poster_fundo_default"
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="invisible"/>
+
+                    <ImageView
+                        android:id="@+id/iv_poster_vert_filme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:background="@color/gray_dark">
+
+                    <TextView
+                        android:id="@+id/tv_titulo_filme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="25sp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_data_lancamento"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_titulo_filme"
+                        android:textColor="@color/gray_ligth"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/separacao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="|"
+                        android:layout_below="@id/tv_titulo_filme"
+                        android:layout_toEndOf="@+id/tv_data_lancamento"
+                        android:textColor="@color/gray_ligth"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_duracao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_titulo_filme"
+                        android:layout_toEndOf="@+id/separacao"
+                        android:textColor="@color/gray_ligth"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_aprovacao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_data_lancamento"
+                        android:textColor="@color/green"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_sinopse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_aprovacao"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:justificationMode="inter_word"/>
+
+                    <TextView
+                        android:id="@+id/tv_generos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_sinopse"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/gray_ligth"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/label_companhias_produtoras"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="15dp"
+                        android:text="Produtoras"
+                        android:layout_below="@id/tv_generos"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_companhias_produtoras"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@id/label_companhias_produtoras"/>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_buttons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/rv_companhias_produtoras"
+                        android:layout_marginTop="10dp"
+                        android:layout_centerHorizontal="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/bt_add_filme"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Add a lista"
+                            android:textAllCaps="false"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@color/gray_ligth"
+                            app:icon="@drawable/ic_add_filme"
+                            app:iconGravity="textTop"
+                            app:iconTint="@color/white"
+                            android:visibility="gone"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/bt_exluir_filme"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Excluir da lista"
+                            android:textAllCaps="false"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@color/gray_ligth"
+                            app:icon="@drawable/ic_excuir"
+                            app:iconGravity="textTop"
+                            app:iconTint="@color/white"
+                            android:visibility="gone"/>
+
+                    </RelativeLayout>
+
+
+
+                    <TextView
+                        android:id="@+id/label_recomendacoes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="Talvez você goste"
+                        android:layout_marginTop="15dp"
+                        android:textSize="16sp"
+                        android:layout_below="@id/rl_buttons"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_filmes_similares"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@id/label_recomendacoes"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </FrameLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toobar"
+        app:titleTextColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title=" "
+        android:background="@android:color/transparent"/>
+
+
+
+</RelativeLayout>
