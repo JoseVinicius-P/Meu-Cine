@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
             public void run() {
                 abrirTelaMeusFilmes();
             }
-        }, 3000);
+        }, 1800);
 
     }
 
