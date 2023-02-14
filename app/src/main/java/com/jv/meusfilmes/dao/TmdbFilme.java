@@ -1,7 +1,9 @@
 package com.jv.meusfilmes.dao;
 
 import android.app.Activity;
+import android.content.Context;
 
+import com.jv.meusfilmes.R;
 import com.jv.meusfilmes.activitys.DetalheFilmeActivity;
 import com.jv.meusfilmes.activitys.ListaFilmesActivity;
 import com.jv.meusfilmes.activitys.MeusFilmesActivity;
@@ -25,20 +27,23 @@ public class TmdbFilme {
     private ConjuntoFilmes conjuntoFilmes =  new ConjuntoFilmes();
     private Filme filme = new Filme();
     private List<Filme> filmes = new ArrayList<>();
+    private String apiKey;
 
 
-    public TmdbFilme() {
+    public TmdbFilme(Context context) {
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+        apiKey = context.getResources().getString(R.string.api_key);
+
     }
 
     //Retorna filmes populares
     public void getFilmesPopulares(/*Para acessar o metodo de mostrar*/ListaFilmesActivity listaFilmesActivity, int page){
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
-        Call<ConjuntoFilmes> call = tmdb_service.getFilmesPopulares(page);
+        Call<ConjuntoFilmes> call = tmdb_service.getFilmesPopulares(apiKey, page);
 
 
         call.enqueue(new Callback<ConjuntoFilmes>() {
@@ -62,7 +67,7 @@ public class TmdbFilme {
     public void pesquisarFilmes(/*Para acessar o metodo de mostrar*/ListaFilmesActivity listaFilmesActivity, int page, String query){
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
-        Call<ConjuntoFilmes> call = tmdb_service.pesquisarFilmes(page, query);
+        Call<ConjuntoFilmes> call = tmdb_service.pesquisarFilmes(apiKey, page, query);
 
 
         call.enqueue(new Callback<ConjuntoFilmes>() {
@@ -101,7 +106,7 @@ public class TmdbFilme {
     private void getFilme(int id_filme, int listaFilmesSize, MeusFilmesActivity meusFilmesActivity){
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
-        Call<Filme> call = tmdb_service.getFilme(id_filme);
+        Call<Filme> call = tmdb_service.getFilme(id_filme, apiKey);
 
         call.enqueue(new Callback<Filme>() {
             @Override
@@ -130,7 +135,7 @@ public class TmdbFilme {
     public void getFilme(int id_filme, Callback<Filme> callback){
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
-        Call<Filme> call = tmdb_service.getFilme(id_filme);
+        Call<Filme> call = tmdb_service.getFilme(id_filme, apiKey);
 
         call.enqueue(callback);
     }
@@ -138,7 +143,7 @@ public class TmdbFilme {
     public void getFilmesSimilares(int id_filme, DetalheFilmeActivity detalhe_filme_activity){
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
-        Call<ConjuntoFilmes> call = tmdb_service.getFilmesSimilares(id_filme);
+        Call<ConjuntoFilmes> call = tmdb_service.getFilmesSimilares(id_filme, apiKey);
 
         call.enqueue(new Callback<ConjuntoFilmes>() {
             @Override

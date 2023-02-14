@@ -188,7 +188,7 @@ public class ListaFilmesActivity extends AppCompatActivity {
     }
 
     private void getFilme(int id_filme){
-        TmdbFilme tmdbFilme = new TmdbFilme();
+        TmdbFilme tmdbFilme = new TmdbFilme(this);
         tmdbFilme.getFilme(id_filme, new Callback<Filme>() {
             @Override
             public void onResponse(Call<Filme> call, Response<Filme> response) {
@@ -222,7 +222,7 @@ public class ListaFilmesActivity extends AppCompatActivity {
     private void buscarFilmes(int page){
         tv_sem_resultados.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-        TmdbFilme tmdbFilme = new TmdbFilme();
+        TmdbFilme tmdbFilme = new TmdbFilme(this);
         tmdbFilme.getFilmesPopulares(listaFilmesActivity, page);
     }
 
@@ -234,7 +234,7 @@ public class ListaFilmesActivity extends AppCompatActivity {
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        TmdbFilme tmdbFilme = new TmdbFilme();
+        TmdbFilme tmdbFilme = new TmdbFilme(this);
         tmdbFilme.pesquisarFilmes(listaFilmesActivity, page, query);
     }
 

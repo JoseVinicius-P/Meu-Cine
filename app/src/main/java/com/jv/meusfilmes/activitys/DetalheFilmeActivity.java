@@ -188,7 +188,7 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     }
 
     private void getFilme(int id_filme){
-        TmdbFilme tmdbFilme = new TmdbFilme();
+        TmdbFilme tmdbFilme = new TmdbFilme(this);
         tmdbFilme.getFilme(id_filme, new retrofit2.Callback<Filme>() {
             @Override
             public void onResponse(Call<Filme> call, Response<Filme> response) {
@@ -228,7 +228,7 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     }
 
     private void getFilmesSimilares(int id_filme){
-        TmdbFilme tmdbFilme = new TmdbFilme();
+        TmdbFilme tmdbFilme = new TmdbFilme(this);
         tmdbFilme.getFilmesSimilares(id_filme, this);
     }
 

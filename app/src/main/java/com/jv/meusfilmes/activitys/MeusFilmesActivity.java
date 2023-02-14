@@ -159,7 +159,7 @@ public class MeusFilmesActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         limparListaFilmes();
         if(ids_filmes != null){
-            TmdbFilme tmdbFilme = new TmdbFilme();
+            TmdbFilme tmdbFilme = new TmdbFilme(this);
             tmdbFilme.getFilmesPorId(ids_filmes, this);
         }else{
             progressBar.setVisibility(View.GONE);
