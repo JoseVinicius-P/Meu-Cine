@@ -22,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
 
         inicializarComponentes();
         inicializarListeners();
-        delay();
 
     }
 
