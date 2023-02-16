@@ -56,6 +56,33 @@ public class AdapterFilmes extends RecyclerView.Adapter<AdapterFilmes.ViewHolder
                 .fit()
                 .placeholder(R.drawable.poster_default)
                 .into(holder.iv_poster);
+        setMargin(position, holder.rl_item);
+    }
+
+    //Usado para colocar margim a direito em elementos a esquerda e margin a esquerda em elementos a direita
+    //É necessãrio pq se aplicar somente em um, o elemento fica mais que o outro
+    private void setMargin(int position, RelativeLayout relative_layout){
+        // Cria um objeto LayoutParams para o elemento
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, // largura do elemento
+                RelativeLayout.LayoutParams.WRAP_CONTENT  // altura do elemento
+        );
+        if(position % 2 == 0){
+            // Define as margens esquerda, topo, direita e baixo em pixels
+            params.setMargins(0, getPixels(8), getPixels(3), 0);
+        }else{
+            // Define as margens esquerda, topo, direita e baixo em pixels
+            params.setMargins(getPixels(3), getPixels(8),0, 0);
+        }
+
+        // Define os novos LayoutParams para o elemento
+        relative_layout.setLayoutParams(params);
+
+    }
+
+    private int getPixels(int dp){
+        float density = context.getResources().getDisplayMetrics().density;
+        return (int) (dp * density + 0.5f);
     }
 
     //Cria String para exiição de aprovação
@@ -106,7 +133,7 @@ public class AdapterFilmes extends RecyclerView.Adapter<AdapterFilmes.ViewHolder
 
         private TextView tv_title, vote_average, tv_date;
         private ImageView iv_poster;
-        private RelativeLayout progressBarLayout;
+        private RelativeLayout progressBarLayout, rl_item;
 
         public ViewHolderFilme(@NonNull View itemView) {
             super(itemView);
@@ -115,6 +142,7 @@ public class AdapterFilmes extends RecyclerView.Adapter<AdapterFilmes.ViewHolder
             tv_date = itemView.findViewById(R.id.tv_date);
             iv_poster = itemView.findViewById(R.id.iv_poster);
             progressBarLayout = itemView.findViewById(R.id.progressBarLayout);
+            rl_item = itemView.findViewById(R.id.rl_item);
         }
     }
 }
