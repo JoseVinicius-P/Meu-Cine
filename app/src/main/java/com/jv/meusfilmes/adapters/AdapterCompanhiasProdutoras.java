@@ -1,7 +1,5 @@
 package com.jv.meusfilmes.adapters;
 
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,7 @@ import java.util.List;
 
 public class AdapterCompanhiasProdutoras extends RecyclerView.Adapter<AdapterCompanhiasProdutoras.ViewHolderCompanhiaProdutora> {
 
-    private List<CompanhiaProdutora> companhias_produtoras;
+    private final List<CompanhiaProdutora> companhias_produtoras;
 
     public AdapterCompanhiasProdutoras(List<CompanhiaProdutora> companhias_produtoras) {
         this.companhias_produtoras = companhias_produtoras;

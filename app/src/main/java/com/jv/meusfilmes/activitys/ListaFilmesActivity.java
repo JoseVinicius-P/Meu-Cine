@@ -1,5 +1,6 @@
 package com.jv.meusfilmes.activitys;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,14 +94,11 @@ public class ListaFilmesActivity extends AppCompatActivity {
             }
         });
 
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                pesquisa_string = null;
-                limparListaFilmes();
-                buscarFilmes(1);
-                return false;
-            }
+        searchView.setOnCloseListener(() -> {
+            pesquisa_string = null;
+            limparListaFilmes();
+            buscarFilmes(1);
+            return false;
         });
     }
 
@@ -191,7 +188,7 @@ public class ListaFilmesActivity extends AppCompatActivity {
         TmdbFilme tmdbFilme = new TmdbFilme(this);
         tmdbFilme.getFilme(id_filme, new Callback<Filme>() {
             @Override
-            public void onResponse(Call<Filme> call, Response<Filme> response) {
+            public void onResponse(@NonNull Call<Filme> call, @NonNull Response<Filme> response) {
                 if(response.isSuccessful()){
                     Filme filme = response.body();
                     abrirTelaDetalheFilme(filme);
@@ -200,7 +197,7 @@ public class ListaFilmesActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Filme> call, Throwable t) {
+            public void onFailure(@NonNull Call<Filme> call, @NonNull Throwable t) {
 
             }
         });

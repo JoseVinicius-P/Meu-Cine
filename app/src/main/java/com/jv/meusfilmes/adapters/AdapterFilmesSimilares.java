@@ -9,11 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jv.meusfilmes.R;
-import com.jv.meusfilmes.activitys.DetalheFilmeActivity;
 import com.jv.meusfilmes.models.Filme;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 public class AdapterFilmesSimilares extends RecyclerView.Adapter<AdapterFilmesSimilares.ViewHolderFilmeSimilar> {
@@ -54,13 +52,7 @@ public class AdapterFilmesSimilares extends RecyclerView.Adapter<AdapterFilmesSi
 
     @Override
     public int getItemCount() {
-        int count_item;
-        if (filmes_similares.size() < 18){
-            count_item = filmes_similares.size();
-        }else{
-            count_item = 18;
-        }
-        return count_item;
+        return Math.min(filmes_similares.size(), 18);
     }
 
     public Integer getIdFilme(int posicao){

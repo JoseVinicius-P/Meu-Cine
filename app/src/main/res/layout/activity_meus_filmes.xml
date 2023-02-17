@@ -14,7 +14,8 @@
         android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_filme" />
+        app:srcCompat="@drawable/ic_add_filme"
+        android:contentDescription="@string/adicionar_filme" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -52,7 +53,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="45dp"
                 android:layout_marginEnd="15dp"
-                android:text="Nenhum filme na sua lista."
+                android:text="@string/nenhum_filme_na_sua_lista"
                 android:textAlignment="center"
                 android:textColor="@color/gray_ligth"
                 android:textStyle="bold"

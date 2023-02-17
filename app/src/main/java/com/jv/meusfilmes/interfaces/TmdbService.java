@@ -1,6 +1,5 @@
 package com.jv.meusfilmes.interfaces;
 
-import com.jv.meusfilmes.R;
 import com.jv.meusfilmes.models.ConjuntoFilmes;
 import com.jv.meusfilmes.models.Filme;
 

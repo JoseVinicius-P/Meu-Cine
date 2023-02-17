@@ -33,12 +33,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void delay(){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(!is_redirecionado){
-                        abrirTelaMeusFilmes();
-                    }
+            new Handler().postDelayed(() -> {
+                if(!is_redirecionado){
+                    abrirTelaMeusFilmes();
                 }
             }, 1800);
     }
@@ -49,9 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void inicializarListeners(){
-        iv_logo_tmdb.setOnClickListener(v -> {
-            redirecionarUsuario();
-        });
+        iv_logo_tmdb.setOnClickListener(v -> redirecionarUsuario());
     }
 
     private void redirecionarUsuario(){

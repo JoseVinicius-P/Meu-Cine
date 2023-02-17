@@ -1,5 +1,6 @@
 package com.jv.meusfilmes.activitys;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.jv.meusfilmes.R;
 import com.jv.meusfilmes.adapters.AdapterCompanhiasProdutoras;
-import com.jv.meusfilmes.adapters.AdapterFilmes;
 import com.jv.meusfilmes.adapters.AdapterFilmesSimilares;
 import com.jv.meusfilmes.dao.TmdbFilme;
 import com.jv.meusfilmes.models.CompanhiaProdutora;
@@ -43,7 +42,7 @@ import retrofit2.Response;
 public class DetalheFilmeActivity extends AppCompatActivity {
 
     private Filme filme;
-    private ImageView iv_poster_horiz_filme, iv_companhia_produtora, iv_poster_vert_filme;
+    private ImageView iv_poster_horiz_filme, iv_poster_vert_filme;
     private TextView tv_titulo_filme, tv_data_lancamento, tv_duracao, tv_aprovacao, tv_sinopse, tv_generos;
     private Toolbar toolbar;
     private RecyclerView rv_companhias_produtoras, rv_filmes_similares;
@@ -89,7 +88,6 @@ public class DetalheFilmeActivity extends AppCompatActivity {
         editor = shared_preferences_filmes.edit();
         iv_poster_horiz_filme = findViewById(R.id.iv_poster_horiz_filme);
         iv_poster_vert_filme = findViewById(R.id.iv_poster_vert_filme);
-        iv_companhia_produtora = findViewById(R.id.iv_companhia_produtora);
         tv_titulo_filme = findViewById(R.id.tv_titulo_filme);
         tv_data_lancamento = findViewById(R.id.tv_data_lancamento);
         tv_duracao = findViewById(R.id.tv_duracao);
@@ -114,9 +112,7 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     }
 
     private void inicializarListenners(){
-        toolbar.setNavigationOnClickListener(v -> {
-            onBackPressed();
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         rv_filmes_similares.addOnItemTouchListener(new RecyclerItemClickListener(
                 getApplicationContext(),
@@ -141,13 +137,9 @@ public class DetalheFilmeActivity extends AppCompatActivity {
                 }
         ));
 
-        bt_add_filme.setOnClickListener(v -> {
-            addFilmeALista(filme.getId());
-        });
+        bt_add_filme.setOnClickListener(v -> addFilmeALista(filme.getId()));
 
-        bt_exluir_filme.setOnClickListener(v -> {
-            apagarFilmeLista();
-        });
+        bt_exluir_filme.setOnClickListener(v -> apagarFilmeLista());
     }
 
     //Usado para definir qual botão aparecerá: o de add ou de excluir
@@ -191,7 +183,7 @@ public class DetalheFilmeActivity extends AppCompatActivity {
         TmdbFilme tmdbFilme = new TmdbFilme(this);
         tmdbFilme.getFilme(id_filme, new retrofit2.Callback<Filme>() {
             @Override
-            public void onResponse(Call<Filme> call, Response<Filme> response) {
+            public void onResponse(@NonNull Call<Filme> call, @NonNull Response<Filme> response) {
                 if(response.isSuccessful()){
                     Filme filme = response.body();
                     abrirTelaDetalheFilme(filme);
@@ -200,7 +192,7 @@ public class DetalheFilmeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Filme> call, Throwable t) {
+            public void onFailure(@NonNull Call<Filme> call, @NonNull Throwable t) {
 
             }
         });
@@ -255,7 +247,7 @@ public class DetalheFilmeActivity extends AppCompatActivity {
                 .into(iv_poster_vert_filme, new Callback() {
                     @Override
                     public void onSuccess() {
-                        setCorNotificationBar(getColorImageView(iv_poster_vert_filme));
+                        setCorNotificationBar(getColorImageView());
                     }
 
                     @Override
@@ -265,7 +257,7 @@ public class DetalheFilmeActivity extends AppCompatActivity {
                 });
 
     }
-    private int getColorImageView(ImageView imageView){
+    private int getColorImageView(){
         Bitmap bitmap=((BitmapDrawable)iv_poster_vert_filme.getDrawable()).getBitmap();
         //Coordenada x do centro
         int x = bitmap.getWidth()/2;

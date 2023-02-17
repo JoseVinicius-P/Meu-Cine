@@ -7,11 +7,11 @@
         android:id="@+id/iv_companhia_produtora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/marvelteste"
         android:adjustViewBounds="true"
         android:maxHeight="25dp"
         android:padding="3dp"
         android:layout_marginStart="2dp"
-        android:background="@color/white"/>
+        android:background="@color/white"
+        android:contentDescription="@string/companhia_produtora" />
 
 </RelativeLayout>

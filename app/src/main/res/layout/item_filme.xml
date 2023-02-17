@@ -10,14 +10,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:src="@drawable/poster_default"
-        android:adjustViewBounds="true"/>
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/poster_filme" />
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_poster"
-        android:text="Título"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="18sp"/>
@@ -30,14 +30,12 @@
         android:layout_marginTop="5dp"
         android:textSize="11sp"
         android:layout_marginBottom="5dp"
-        android:text="aprovação"
         android:textColor="@color/green"/>
 
     <TextView
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Data"
         android:textSize="11sp"
         android:layout_below="@id/vote_average"
         android:textColor="@color/gray_ligth"/>

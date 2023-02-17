@@ -1,11 +1,11 @@
 package com.jv.meusfilmes.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -110,7 +110,9 @@ public class AdapterFilmes extends RecyclerView.Adapter<AdapterFilmes.ViewHolder
         notifyItemRangeInserted(initialSize, novosFilmes.size());
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void clear() {
+        int size = filmes.size();
         filmes.clear();
         notifyDataSetChanged();
     }

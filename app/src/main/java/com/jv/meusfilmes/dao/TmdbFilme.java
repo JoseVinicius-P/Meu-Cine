@@ -1,7 +1,8 @@
 package com.jv.meusfilmes.dao;
 
-import android.app.Activity;
 import android.content.Context;
+
+import androidx.annotation.NonNull;
 
 import com.jv.meusfilmes.R;
 import com.jv.meusfilmes.activitys.DetalheFilmeActivity;
@@ -48,16 +49,20 @@ public class TmdbFilme {
 
         call.enqueue(new Callback<ConjuntoFilmes>() {
             @Override
-            public void onResponse(Call<ConjuntoFilmes> call, Response<ConjuntoFilmes> response) {
+            public void onResponse(@NonNull Call<ConjuntoFilmes> call, @NonNull Response<ConjuntoFilmes> response) {
                 if (response.isSuccessful()){
                     conjuntoFilmes = response.body();
-                    List<Filme> filmes = conjuntoFilmes.getFilmes();
+
+                    List<Filme> filmes = null;
+                    if (conjuntoFilmes != null) {
+                        filmes = conjuntoFilmes.getFilmes();
+                    }
                     listaFilmesActivity.exibirFilmes(filmes);
                 }
             }
 
             @Override
-            public void onFailure(Call<ConjuntoFilmes> call, Throwable t) {
+            public void onFailure(@NonNull Call<ConjuntoFilmes> call, @NonNull Throwable t) {
                 System.out.println("Erro: " + t);
             }
         });
@@ -72,13 +77,16 @@ public class TmdbFilme {
 
         call.enqueue(new Callback<ConjuntoFilmes>() {
             @Override
-            public void onResponse(Call<ConjuntoFilmes> call, Response<ConjuntoFilmes> response) {
+            public void onResponse(@NonNull Call<ConjuntoFilmes> call, @NonNull Response<ConjuntoFilmes> response) {
                 if (response.isSuccessful()){
                     conjuntoFilmes = response.body();
-                    List<Filme> filmes = conjuntoFilmes.getFilmes();
+                    List<Filme> filmes = null;
+                    if (conjuntoFilmes != null) {
+                        filmes = conjuntoFilmes.getFilmes();
+                    }
 
                     //Caso não seja encontrado nenhum filme, envia um null ao metodo para este fazer o tratamento necessário
-                    if(filmes.size() != 0)
+                    if(filmes != null && filmes.size() != 0)
                         listaFilmesActivity.exibirFilmes(filmes);
                     else
                         listaFilmesActivity.exibirFilmes(null);
@@ -86,7 +94,7 @@ public class TmdbFilme {
             }
 
             @Override
-            public void onFailure(Call<ConjuntoFilmes> call, Throwable t) {
+            public void onFailure(@NonNull Call<ConjuntoFilmes> call, @NonNull Throwable t) {
                 System.out.println("Erro: " + t);
             }
         });
@@ -110,7 +118,7 @@ public class TmdbFilme {
 
         call.enqueue(new Callback<Filme>() {
             @Override
-            public void onResponse(Call<Filme> call, Response<Filme> response) {
+            public void onResponse(@NonNull Call<Filme> call, @NonNull Response<Filme> response) {
                 if (response.isSuccessful()){
                     filme = response.body();
                     filmes.add(filme);
@@ -126,7 +134,7 @@ public class TmdbFilme {
             }
 
             @Override
-            public void onFailure(Call<Filme> call, Throwable t) {
+            public void onFailure(@NonNull Call<Filme> call, @NonNull Throwable t) {
                 System.out.println("Erro: " + t);
             }
         });
@@ -147,16 +155,19 @@ public class TmdbFilme {
 
         call.enqueue(new Callback<ConjuntoFilmes>() {
             @Override
-            public void onResponse(Call<ConjuntoFilmes> call, Response<ConjuntoFilmes> response) {
+            public void onResponse(@NonNull Call<ConjuntoFilmes> call, @NonNull Response<ConjuntoFilmes> response) {
                 if (response.isSuccessful()){
                     conjuntoFilmes = response.body();
-                    List<Filme> filmes = conjuntoFilmes.getFilmes();
+                    List<Filme> filmes = null;
+                    if (conjuntoFilmes != null) {
+                        filmes = conjuntoFilmes.getFilmes();
+                    }
                     detalhe_filme_activity.exibirFilmesSimilares(filmes);
                 }
             }
 
             @Override
-            public void onFailure(Call<ConjuntoFilmes> call, Throwable t) {
+            public void onFailure(@NonNull Call<ConjuntoFilmes> call, @NonNull Throwable t) {
 
             }
         });

@@ -64,9 +64,7 @@ public class MeusFilmesActivity extends AppCompatActivity {
     }
 
     private void addListeners(){
-        fab_add_filme.setOnClickListener(view -> {
-               abrirTelaListaFilmes();
-        });
+        fab_add_filme.setOnClickListener(view -> abrirTelaListaFilmes());
 
         rv_meus_filmes.addOnItemTouchListener(
                 new RecyclerItemClickListener(
@@ -102,7 +100,7 @@ public class MeusFilmesActivity extends AppCompatActivity {
     private void apagarFilmeLista(int position){
         List<Integer> ids_filmes_local = getIdsFilmes();
         int id_filme = adapter_filmes.getIdFilme(position);
-        if(ids_filmes_local != null || ids_filmes_local.size() > 0){
+        if(ids_filmes_local != null && ids_filmes_local.size() > 0){
             for (int i = 0; i < ids_filmes_local.size(); i++) {
                 if(id_filme == ids_filmes_local.get(i)){
                     ids_filmes_local.remove(i);

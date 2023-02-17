@@ -36,7 +36,7 @@
                 android:id="@+id/tv_sem_resultados"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ainda não produziram nenhum filme com este nome :("
+                android:text="@string/nenhum_filme_com_este_nome"
                 android:visibility="gone"
                 android:textAlignment="center"
                 android:layout_marginTop="45dp"
