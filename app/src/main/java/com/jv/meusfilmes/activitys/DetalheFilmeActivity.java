@@ -216,11 +216,22 @@ public class DetalheFilmeActivity extends AppCompatActivity {
         tv_data_lancamento.setText(Formatter.formatterDate(filme.getRelease_date()));
         tv_duracao.setText(Formatter.formatterRuntime(filme.getRuntime()));
         tv_aprovacao.setText(Formatter.formatterVoteAverage(String.valueOf(filme.getVote_average())));
+        setCorAprovacao(tv_aprovacao, (int) (Double.parseDouble(filme.getVote_average())*10));
         tv_sinopse.setText(filme.getOverview());
         tv_generos.setText(Formatter.formatterGenres(filme.getGenres()));
         exibirCompanhiasProdutoras(filme.getProduction_companies());
         definirBotao();
         getFilmesSimilares(filme.getId());
+    }
+
+    private void setCorAprovacao(TextView tv, int porcentagem){
+        if(porcentagem >= 70){
+            tv.setTextColor(this.getResources().getColor(R.color.green));
+        }else if(porcentagem > 40){
+            tv.setTextColor(this.getResources().getColor(R.color.yellow));
+        }else{
+            tv.setTextColor(this.getResources().getColor(R.color.red));
+        }
     }
 
     private void getFilmesSimilares(int id_filme){
