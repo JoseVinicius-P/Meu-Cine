@@ -43,7 +43,7 @@ public class DetalheFilmeActivity extends AppCompatActivity {
 
     private Filme filme;
     private ImageView iv_poster_horiz_filme, iv_poster_vert_filme;
-    private TextView tv_titulo_filme, tv_data_lancamento, tv_duracao, tv_aprovacao, tv_sinopse, tv_generos, label_recomendacoes;
+    private TextView tv_titulo_filme, tv_data_lancamento, tv_duracao, tv_aprovacao, tv_sinopse, tv_generos, label_recomendacoes, label_companhias_produtoras;
     private Toolbar toolbar;
     private RecyclerView rv_companhias_produtoras, rv_filmes_similares;
     private AdapterCompanhiasProdutoras adapter_companhias_produtoras;
@@ -96,6 +96,8 @@ public class DetalheFilmeActivity extends AppCompatActivity {
         tv_generos = findViewById(R.id.tv_generos);
         label_recomendacoes = findViewById(R.id.label_recomendacoes);
         label_recomendacoes.setVisibility(View.GONE);
+        label_companhias_produtoras = findViewById(R.id.label_companhias_produtoras);
+        label_companhias_produtoras.setVisibility(View.GONE);
         bt_add_filme = findViewById(R.id.bt_add_filme);
         bt_exluir_filme = findViewById(R.id.bt_exluir_filme);
         rv_companhias_produtoras = findViewById(R.id.rv_companhias_produtoras);
@@ -227,8 +229,11 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     }
 
     private void exibirCompanhiasProdutoras(List<CompanhiaProdutora> companhia_produtoras){
-        adapter_companhias_produtoras = new AdapterCompanhiasProdutoras(companhia_produtoras);
-        rv_companhias_produtoras.setAdapter(adapter_companhias_produtoras);
+        if(companhia_produtoras != null && companhia_produtoras.size() > 0) {
+            label_companhias_produtoras.setVisibility(View.VISIBLE);
+            adapter_companhias_produtoras = new AdapterCompanhiasProdutoras(companhia_produtoras);
+            rv_companhias_produtoras.setAdapter(adapter_companhias_produtoras);
+        }
     }
 
     private void setImagePosterHoriz(String url){
