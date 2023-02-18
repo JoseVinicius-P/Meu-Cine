@@ -9,11 +9,10 @@ import android.os.Handler;
 import android.widget.ImageView;
 
 import com.jv.meusfilmes.R;
-import com.squareup.picasso.Picasso;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private ImageView iv_logo_tmdb;
+    private ImageView iv_logo, iv_logo_tmdb;
     private boolean is_redirecionado = false;
 
     @Override
@@ -42,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void inicializarComponentes(){
+        iv_logo = findViewById(R.id.iv_logo);
         iv_logo_tmdb = findViewById(R.id.iv_logo_tmdb);
     }
 
