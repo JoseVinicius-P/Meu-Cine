@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Meus Filmes</string>
+    <string name="nenhum_filme_com_este_nome">Ainda não produziram nenhum filme com este nome :(</string>
+    <string name="logo_meu_cine">Logo Meu Cine</string>
+    <string name="feito_com">FEITO COM</string>
+    <string name="logo_the_movie_data_base">Logo: The Movie Data Base</string>
+    <string name="adicionar_filme">Adicionar Filme</string>
+    <string name="nenhum_filme_na_sua_lista">Nenhum filme na sua lista.</string>
+    <string name="companhia_produtora">Companhia Produtora</string>
+    <string name="poster_filme">Poster filme</string>
+    <string name="produtoras">Produtoras</string>
+    <string name="add_a_lista">Add a lista</string>
+    <string name="excluir_da_lista">Excluir da lista</string>
+    <string name="talvez_voce_goste">Talvez você goste</string>
 </resources>
