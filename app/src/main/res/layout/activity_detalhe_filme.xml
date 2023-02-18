@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:layout_gravity="center_horizontal"
-            android:alpha="0.3" />
+            android:alpha="0.3"
+            android:contentDescription="@string/poster_filme" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -40,13 +41,15 @@
                         android:adjustViewBounds="true"
                         android:src="@drawable/poster_fundo_default"
                         android:layout_gravity="center_horizontal"
-                        android:visibility="invisible"/>
+                        android:visibility="invisible"
+                        tools:ignore="ContentDescription" />
 
                     <ImageView
                         android:id="@+id/iv_poster_vert_filme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true" />
+                        android:layout_centerInParent="true"
+                        android:contentDescription="@string/poster_filme" />
 
                 </RelativeLayout>
 
@@ -109,7 +112,8 @@
                         android:layout_below="@id/tv_aprovacao"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/white"
-                        android:justificationMode="inter_word"/>
+                        android:justificationMode="inter_word"
+                        tools:ignore="UnusedAttribute" />
 
                     <TextView
                         android:id="@+id/tv_generos"
@@ -126,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:layout_marginTop="15dp"
-                        android:text="Produtoras"
+                        android:text="@string/produtoras"
                         android:layout_below="@id/tv_generos"/>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -151,7 +155,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="20dp"
                             android:layout_marginTop="10dp"
-                            android:text="Add a lista"
+                            android:text="@string/add_a_lista"
                             android:textAllCaps="false"
                             android:textAppearance="@style/TextAppearance.AppCompat.Small"
                             android:textColor="@color/gray_ligth"
@@ -167,7 +171,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="20dp"
                             android:layout_marginTop="10dp"
-                            android:text="Excluir da lista"
+                            android:text="@string/excluir_da_lista"
                             android:textAllCaps="false"
                             android:textAppearance="@style/TextAppearance.AppCompat.Small"
                             android:textColor="@color/gray_ligth"
@@ -185,7 +189,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="Talvez você goste"
+                        android:text="@string/talvez_voce_goste"
                         android:layout_marginTop="15dp"
                         android:textSize="16sp"
                         android:layout_below="@id/rl_buttons"/>
