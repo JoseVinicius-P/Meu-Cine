@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Meus Filmes</string>
+    <string name="app_name">Meu Cine</string>
     <string name="nenhum_filme_com_este_nome">Ainda não produziram nenhum filme com este nome :(</string>
     <string name="logo_meu_cine">Logo Meu Cine</string>
     <string name="feito_com">FEITO COM</string>
