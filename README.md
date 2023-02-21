@@ -7,5 +7,5 @@ A seguir está exposto um vídeo demonstrando o funcionamento do app:
   <img width="200" src="Media Git/show_app.gif">
 </p>
 
-Este app se encontra em desenvolvimento, pois existem melhorias a serem feitas, como questões de segurança, de organização e implementação de algumas boas práticas de desenvolvimento.
+Este app se encontra em desenvolvimento, pois existem melhorias a serem feitas, como questões de segurança, de organização e implementação de algumas boas práticas de desenvolvimento. Em breve disponibilizaremos na Play Store.
 Destacamos que nenhum tipo de dados do usuário são coletados e/ou transferidos, todos os dados referentes as listas são armazenados localmente no app
