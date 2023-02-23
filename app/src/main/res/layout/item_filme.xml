@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/iv_poster"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_poster"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:src="@drawable/poster_default"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/poster_filme" />
+        app:cardCornerRadius="3dp">
+
+        <ImageView
+            android:id="@+id/iv_poster"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/poster_default"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/poster_filme" />
+
+
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iv_poster"
+        android:layout_below="@id/cv_poster"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="18sp"/>
