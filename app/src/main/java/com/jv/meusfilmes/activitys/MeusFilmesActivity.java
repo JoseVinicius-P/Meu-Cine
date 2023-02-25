@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,7 +22,6 @@ import com.jv.meusfilmes.models.Filme;
 import com.jv.meusfilmes.utilities.CheckConnection;
 import com.jv.meusfilmes.utilities.RecyclerItemClickListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MeusFilmesActivity extends AppCompatActivity {
@@ -48,18 +46,14 @@ public class MeusFilmesActivity extends AppCompatActivity {
 
         inicializarComponentes();
         addListeners();
-        if(!CheckConnection.verificarConexao(this)){
-            snackbar_connection.show();
-        };
+        verificarConexao();
         buscarMeusFilmes(filme_dao.getIdsFilmes());
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if(!CheckConnection.verificarConexao(this)){
-            snackbar_connection.show();
-        };
+        verificarConexao();
         buscarMeusFilmes(filme_dao.getIdsFilmes());
     }
 
@@ -123,18 +117,7 @@ public class MeusFilmesActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         limparListaFilmes();
         if(ids_filmes != null){
-            //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
-            CheckConnection.verificarInternet(() -> {
-                if(!CheckConnection.isInternet()) {
-                    if(!snackbar_connection.isShown()){
-                        snackbar_connection.show();
-                    }
-                    buscarMeusFilmes(filme_dao.getIdsFilmes());
-                }else{
-                    if (snackbar_connection != null)
-                        snackbar_connection.dismiss();
-                }
-            });
+            verificarInternet();
             TmdbFilme tmdbFilme = new TmdbFilme(this);
             tmdbFilme.getFilmesPorId(ids_filmes, this);
         }else{
@@ -142,6 +125,27 @@ public class MeusFilmesActivity extends AppCompatActivity {
             tv_sem_filmes.setVisibility(View.VISIBLE);
         }
 
+    }
+
+    private void verificarInternet(){
+        //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
+        CheckConnection.verificarInternet(() -> {
+            if(!CheckConnection.isInternet()) {
+                if(!snackbar_connection.isShown()){
+                    snackbar_connection.show();
+                }
+                buscarMeusFilmes(filme_dao.getIdsFilmes());
+            }else{
+                if (snackbar_connection != null)
+                    snackbar_connection.dismiss();
+            }
+        });
+    }
+
+    private void verificarConexao(){
+        if(!CheckConnection.verificarConexao(this)){
+            snackbar_connection.show();
+        };
     }
 
     public void exibirFilmes(List<Filme> filmes){
