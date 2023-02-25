@@ -164,6 +164,7 @@ public class TmdbFilme {
                         filmes = conjuntoFilmes.getFilmes();
                     }
                     detalhe_filme_activity.exibirFilmesSimilares(filmes);
+                    CheckConnection.setIs_internet(true);
                 }
             }
 

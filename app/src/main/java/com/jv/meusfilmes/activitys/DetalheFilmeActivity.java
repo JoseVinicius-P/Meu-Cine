@@ -17,10 +17,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.jv.meusfilmes.R;
 import com.jv.meusfilmes.adapters.AdapterCompanhiasProdutoras;
 import com.jv.meusfilmes.adapters.AdapterFilmesSimilares;
@@ -28,6 +30,7 @@ import com.jv.meusfilmes.api.TmdbFilme;
 import com.jv.meusfilmes.dao.FilmeDAO;
 import com.jv.meusfilmes.models.CompanhiaProdutora;
 import com.jv.meusfilmes.models.Filme;
+import com.jv.meusfilmes.utilities.CheckConnection;
 import com.jv.meusfilmes.utilities.Formatter;
 import com.jv.meusfilmes.utilities.RecyclerItemClickListener;
 import com.squareup.picasso.Callback;
@@ -52,9 +55,11 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager lm_campanhias_produtoras, lm_filmes_similares;
     private View view_touched;
     private MaterialButton bt_exluir_filme, bt_add_filme;
-
     //Classe usada para acessar as shareds preferences da lista de filmes
     private FilmeDAO filme_dao;
+    private Snackbar snackbar_connection;
+    private RelativeLayout full_container;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,7 @@ public class DetalheFilmeActivity extends AppCompatActivity {
         else
             finish();
 
+        verificarConexao();
     }
 
     @Override
@@ -112,6 +118,11 @@ public class DetalheFilmeActivity extends AppCompatActivity {
         lm_filmes_similares = new GridLayoutManager(this, 3);
         rv_filmes_similares.setLayoutManager(lm_filmes_similares);
         rv_filmes_similares.setHasFixedSize(true);
+        full_container = findViewById(R.id.full_container);
+
+        snackbar_connection = Snackbar.make(full_container,
+                "Verifique sua conexão",
+                Snackbar.LENGTH_INDEFINITE);
     }
 
     private void inicializarListenners(){
@@ -174,11 +185,24 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     }
 
     private void getFilme(int id_filme){
+        CheckConnection.verificarInternet(() -> {
+            if(!CheckConnection.isInternet()) {
+                if(!snackbar_connection.isShown()){
+                    snackbar_connection.show();
+                }
+                getFilme(id_filme);
+            }else{
+                if (snackbar_connection != null)
+                    snackbar_connection.dismiss();
+            }
+        });
+
         TmdbFilme tmdbFilme = new TmdbFilme(this);
         tmdbFilme.getFilme(id_filme, new retrofit2.Callback<Filme>() {
             @Override
             public void onResponse(@NonNull Call<Filme> call, @NonNull Response<Filme> response) {
                 if(response.isSuccessful()){
+                    CheckConnection.setIs_internet(true);
                     Filme filme = response.body();
                     abrirTelaDetalheFilme(filme);
                     setCarregamento(false);
@@ -225,6 +249,17 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     }
 
     private void getFilmesSimilares(int id_filme){
+        CheckConnection.verificarInternet(() -> {
+            if(!CheckConnection.isInternet()) {
+                if(!snackbar_connection.isShown()){
+                    snackbar_connection.show();
+                }
+                getFilmesSimilares(id_filme);
+            }else{
+                if (snackbar_connection != null)
+                    snackbar_connection.dismiss();
+            }
+        });
         TmdbFilme tmdbFilme = new TmdbFilme(this);
         tmdbFilme.getFilmesSimilares(id_filme, this);
     }
@@ -309,6 +344,12 @@ public class DetalheFilmeActivity extends AppCompatActivity {
             adapter_filmes_similares = new AdapterFilmesSimilares(filmes);
             rv_filmes_similares.setAdapter(adapter_filmes_similares);
         }
+    }
+
+    private void verificarConexao(){
+        if(!CheckConnection.verificarConexao(this)){
+            snackbar_connection.show();
+        };
     }
 
 }
