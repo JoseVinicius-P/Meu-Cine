@@ -2,6 +2,7 @@ package com.jv.meusfilmes.dao;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,6 @@ public class FilmeDAO {
     public List<Integer> getIdsFilmes(){
         List<Integer> ids_filmes = new ArrayList<>();
         int qt_filmes = shared_preferences_filmes.getAll().size();
-        //Se lista de filmes estiver vazia uma mensagem será exibida
         if (qt_filmes > 0){
             for(int i = 1; i <= qt_filmes; i++){
                 String chave_filme = "filme_" + i;
@@ -62,5 +62,35 @@ public class FilmeDAO {
             return ids_filmes;
         else
             return null;
+    }
+
+    //Metodo para verificar se filme já foi adicionado a lista
+    public boolean listaFilmeContains(int id_filme){
+        boolean contain = false;
+
+        for (int i = 1; i <= shared_preferences_filmes.getAll().size( ); i++) {
+            String chave_filme = "filme_" + i;
+            int id = shared_preferences_filmes.getInt(chave_filme, 0);
+
+            if(id != 0){
+                if (id == id_filme)
+                    contain = true;
+            }
+        }
+        return contain;
+    }
+
+    public boolean addFilmeALista(int id_filme){
+        if(!listaFilmeContains(id_filme)){
+            int qt_filmes = shared_preferences_filmes.getAll().size();
+            String chave_filme = "filme_" + (qt_filmes+1);
+            editor.putInt(chave_filme, id_filme);
+            //Verifica e retorna se inserção na lista deu certo
+            return editor.commit();
+        }else{
+            return false;
+        }
+
+
     }
 }
