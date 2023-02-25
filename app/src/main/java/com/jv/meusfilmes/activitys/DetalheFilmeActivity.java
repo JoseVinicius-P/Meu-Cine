@@ -25,6 +25,7 @@ import com.jv.meusfilmes.R;
 import com.jv.meusfilmes.adapters.AdapterCompanhiasProdutoras;
 import com.jv.meusfilmes.adapters.AdapterFilmesSimilares;
 import com.jv.meusfilmes.api.TmdbFilme;
+import com.jv.meusfilmes.dao.FilmeDAO;
 import com.jv.meusfilmes.models.CompanhiaProdutora;
 import com.jv.meusfilmes.models.Filme;
 import com.jv.meusfilmes.utilities.Formatter;
@@ -51,10 +52,9 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager lm_campanhias_produtoras, lm_filmes_similares;
     private View view_touched;
     private MaterialButton bt_exluir_filme, bt_add_filme;
-    private SharedPreferences shared_preferences_filmes;
-    private SharedPreferences.Editor editor;
 
-
+    //Classe usada para acessar as shareds preferences da lista de filmes
+    private FilmeDAO filme_dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +84,7 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     }
 
     private void inicializarComponentes(){
-        shared_preferences_filmes = getSharedPreferences("MinhaListaFilmes", MODE_PRIVATE);
-        editor = shared_preferences_filmes.edit();
+        filme_dao = new FilmeDAO(this);
         iv_poster_horiz_filme = findViewById(R.id.iv_poster_horiz_filme);
         iv_poster_vert_filme = findViewById(R.id.iv_poster_vert_filme);
         tv_titulo_filme = findViewById(R.id.tv_titulo_filme);
@@ -141,35 +140,26 @@ public class DetalheFilmeActivity extends AppCompatActivity {
                 }
         ));
 
-        bt_add_filme.setOnClickListener(v -> addFilmeALista(filme.getId()));
+        bt_add_filme.setOnClickListener(v -> {
+            filme_dao.addFilmeALista(filme.getId());
+            definirBotao();
+        });
 
-        bt_exluir_filme.setOnClickListener(v -> apagarFilmeLista());
+        bt_exluir_filme.setOnClickListener(v -> {
+            filme_dao.apagarFilmeLista(filme.getId());
+            definirBotao();
+        });
     }
 
     //Usado para definir qual botão aparecerá: o de add ou de excluir
     private void definirBotao(){
-        if (listaFilmeContains(filme.getId())){
+        if (filme_dao.listaFilmeContains(filme.getId())){
             bt_exluir_filme.setVisibility(View.VISIBLE);
             bt_add_filme.setVisibility(View.GONE);
         }else{
             bt_add_filme.setVisibility(View.VISIBLE);
             bt_exluir_filme.setVisibility(View.GONE);
         }
-    }
-
-    private boolean listaFilmeContains(int id_filme){
-        boolean contain = false;
-
-        for (int i = 1; i <= shared_preferences_filmes.getAll().size( ); i++) {
-            String chave_filme = "filme_" + i;
-            int id = shared_preferences_filmes.getInt(chave_filme, 0);
-
-            if(id != 0){
-                if (id == id_filme)
-                    contain = true;
-            }
-        }
-        return contain;
     }
 
     private void setCarregamento(boolean is_carregando){
@@ -303,7 +293,6 @@ public class DetalheFilmeActivity extends AppCompatActivity {
         return displayMetrics.widthPixels;
     }
 
-
     //Pegando id_filme, passado da activity
     private boolean getExtra(){
         boolean is_id_valido = false;
@@ -314,78 +303,12 @@ public class DetalheFilmeActivity extends AppCompatActivity {
 
         return is_id_valido;
     }
-
     public void exibirFilmesSimilares(List<Filme> filmes) {
         if(filmes != null && filmes.size() > 0){
             label_recomendacoes.setVisibility(View.VISIBLE);
             adapter_filmes_similares = new AdapterFilmesSimilares(filmes);
             rv_filmes_similares.setAdapter(adapter_filmes_similares);
         }
-    }
-
-    private void addFilmeALista(int id_filme){
-        //Verifica se o filme já está na lista
-        if(!listaFilmeContains(id_filme)){
-            int qt_filmes = shared_preferences_filmes.getAll().size();
-            String chave_filme = "filme_" + (qt_filmes+1);
-            editor.putInt(chave_filme, id_filme);
-            //Verifica se inserção na lista deu certo
-            if(editor.commit()){
-                definirBotao();
-            }else{
-                Toast toast = Toast.makeText(getApplicationContext(), "Filme não adicionado, tente novamente!", Toast.LENGTH_LONG);
-                toast.show();
-            }
-        }else{
-            definirBotao();
-        }
-
-    }
-
-    private void apagarFilmeLista(){
-        List<Integer> ids_filmes_local = getIdsFilmes();
-        int id_filme = filme.getId();
-        if(ids_filmes_local != null || ids_filmes_local.size() > 0){
-            for (int i = 0; i < ids_filmes_local.size(); i++) {
-                if(id_filme == ids_filmes_local.get(i)){
-                    ids_filmes_local.remove(i);
-                }
-            }
-            editor.clear();
-            if (editor.commit()){
-                salvarListaFilmes(ids_filmes_local);
-            }
-        }
-    }
-
-    private void salvarListaFilmes(List<Integer> ids_filmes){
-        if(ids_filmes.size() > 0){
-            for (int i = 1; i <= ids_filmes.size(); i++) {
-                String chave_filme = "filme_" + i;
-                editor.putInt(chave_filme, ids_filmes.get(i-1));
-            }
-            if(editor.commit()){
-                definirBotao();
-            }
-        }
-    }
-
-    private List<Integer> getIdsFilmes(){
-        List<Integer> ids_filmes = new ArrayList<>();
-        int qt_filmes = shared_preferences_filmes.getAll().size();
-        //Se lista de filmes estiver vazia uma mensagem será exibida
-        if (qt_filmes > 0){
-            for(int i = 1; i <= qt_filmes; i++){
-                String chave_filme = "filme_" + i;
-                ids_filmes.add(shared_preferences_filmes.getInt(chave_filme, 0));
-            }
-        }
-
-        //Retonará nulo para fazer tratamento no outro metodo
-        if (ids_filmes.size() > 0)
-            return ids_filmes;
-        else
-            return null;
     }
 
 }
