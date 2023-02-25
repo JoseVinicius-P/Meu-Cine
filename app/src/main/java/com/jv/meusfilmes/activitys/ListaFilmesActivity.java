@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.jv.meusfilmes.R;
 import com.jv.meusfilmes.adapters.AdapterFilmes;
 import com.jv.meusfilmes.api.TmdbFilme;
+import com.jv.meusfilmes.dao.FilmeDAO;
 import com.jv.meusfilmes.models.Filme;
 import com.jv.meusfilmes.utilities.EndlessRecyclerViewScrollListener;
 import com.jv.meusfilmes.utilities.RecyclerItemClickListener;
@@ -43,8 +44,9 @@ public class ListaFilmesActivity extends AppCompatActivity {
     private TextView tv_sem_resultados;
     private SearchView searchView;
     private String pesquisa_string;
-    private SharedPreferences shared_preferences_filmes;
-    private SharedPreferences.Editor editor;
+
+    //Classe usada para acessar as shareds preferences da lista de filmes
+    private FilmeDAO filme_dao;
 
     private View view_touched;
 
@@ -122,8 +124,7 @@ public class ListaFilmesActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBarLayout);
         tv_sem_resultados = findViewById(R.id.tv_sem_resultados);
 
-        shared_preferences_filmes = getSharedPreferences("MinhaListaFilmes", MODE_PRIVATE);
-        editor = shared_preferences_filmes.edit();
+        filme_dao = new FilmeDAO(this);
     }
 
     private void inicializarListeners(){
@@ -161,7 +162,7 @@ public class ListaFilmesActivity extends AppCompatActivity {
 
                             @Override
                             public void onLongItemClick(View view, int position) {
-                                addFilmeALista(adapter_filmes.getIdFilme(position));
+                                initAddFilme(adapter_filmes.getIdFilme(position));
                             }
 
                             @Override
@@ -171,6 +172,23 @@ public class ListaFilmesActivity extends AppCompatActivity {
                         }
                 )
         );
+    }
+
+    //Metodo usado para tratar verificações da inserção do filme
+    private void initAddFilme(int id_filme){
+        String msg;
+        if(!filme_dao.listaFilmeContains(id_filme)){
+            if(filme_dao.addFilmeALista(id_filme)){
+                msg = "Filme adicionado";
+            }else{
+                msg = "Filme não adicionado, tente novamente!";
+            }
+        }else{
+            msg = "Este filme já está na lista";
+        }
+
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+
     }
 
     private void setCarregamento(boolean is_carregando){
@@ -254,43 +272,6 @@ public class ListaFilmesActivity extends AppCompatActivity {
         }
 
         progressBar.setVisibility(View.GONE);
-
-    }
-
-    //Metodo para verificar se filme já foi adicionado a lista
-    private boolean listaFilmeContains(int id_filme){
-        boolean contain = false;
-
-        for (int i = 1; i <= shared_preferences_filmes.getAll().size( ); i++) {
-            String chave_filme = "filme_" + i;
-            int id = shared_preferences_filmes.getInt(chave_filme, 0);
-
-            if(id != 0){
-                if (id == id_filme)
-                    contain = true;
-            }
-        }
-        return contain;
-    }
-
-    private void addFilmeALista(int id_filme){
-        //Verifica se o filme já está na lista
-        if(!listaFilmeContains(id_filme)){
-            int qt_filmes = shared_preferences_filmes.getAll().size();
-            String chave_filme = "filme_" + (qt_filmes+1);
-            editor.putInt(chave_filme, id_filme);
-            //Verifica se inserção na lista deu certo
-            if(editor.commit()){
-                Toast toast = Toast.makeText(getApplicationContext(), "Filme adicionado", Toast.LENGTH_SHORT);
-                toast.show();
-            }else{
-                Toast toast = Toast.makeText(getApplicationContext(), "Filme não adicionado, tente novamente!", Toast.LENGTH_LONG);
-                toast.show();
-            }
-        }else{
-            Toast toast = Toast.makeText(getApplicationContext(), "Este filme já está na lista", Toast.LENGTH_SHORT);
-            toast.show();
-        }
 
     }
 }
