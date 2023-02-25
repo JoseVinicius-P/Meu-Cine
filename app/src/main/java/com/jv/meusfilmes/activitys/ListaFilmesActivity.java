@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.jv.meusfilmes.R;
 import com.jv.meusfilmes.adapters.AdapterFilmes;
-import com.jv.meusfilmes.dao.TmdbFilme;
+import com.jv.meusfilmes.api.TmdbFilme;
 import com.jv.meusfilmes.models.Filme;
 import com.jv.meusfilmes.utilities.EndlessRecyclerViewScrollListener;
 import com.jv.meusfilmes.utilities.RecyclerItemClickListener;

@@ -24,7 +24,7 @@ import com.google.android.material.button.MaterialButton;
 import com.jv.meusfilmes.R;
 import com.jv.meusfilmes.adapters.AdapterCompanhiasProdutoras;
 import com.jv.meusfilmes.adapters.AdapterFilmesSimilares;
-import com.jv.meusfilmes.dao.TmdbFilme;
+import com.jv.meusfilmes.api.TmdbFilme;
 import com.jv.meusfilmes.models.CompanhiaProdutora;
 import com.jv.meusfilmes.models.Filme;
 import com.jv.meusfilmes.utilities.Formatter;

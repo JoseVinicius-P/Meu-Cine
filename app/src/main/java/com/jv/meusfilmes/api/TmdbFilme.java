@@ -1,4 +1,4 @@
-package com.jv.meusfilmes.dao;
+package com.jv.meusfilmes.api;
 
 import android.content.Context;
 
