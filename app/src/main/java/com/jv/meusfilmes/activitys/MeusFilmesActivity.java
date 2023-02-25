@@ -49,7 +49,6 @@ public class MeusFilmesActivity extends AppCompatActivity {
         inicializarComponentes();
         addListeners();
         if(!CheckConnection.verificarConexao(this)){
-            snackbar_connection = Snackbar.make(full_container, "Verifique sua conexão", Snackbar.LENGTH_INDEFINITE);
             snackbar_connection.show();
         };
         buscarMeusFilmes(filme_dao.getIdsFilmes());
@@ -59,7 +58,6 @@ public class MeusFilmesActivity extends AppCompatActivity {
     protected void onPostResume() {
         super.onPostResume();
         if(!CheckConnection.verificarConexao(this)){
-            snackbar_connection = Snackbar.make(full_container, "Verifique sua conexão", Snackbar.LENGTH_INDEFINITE);
             snackbar_connection.show();
         };
         buscarMeusFilmes(filme_dao.getIdsFilmes());
@@ -76,6 +74,9 @@ public class MeusFilmesActivity extends AppCompatActivity {
         tv_sem_filmes = findViewById(R.id.tv_sem_filmes);
         progressBar = findViewById(R.id.progressBarLayout);
         full_container = findViewById(R.id.full_container);
+        snackbar_connection = Snackbar.make(full_container,
+                "Verifique sua conexão",
+                Snackbar.LENGTH_INDEFINITE);
     }
 
     private void addListeners(){
@@ -126,9 +127,6 @@ public class MeusFilmesActivity extends AppCompatActivity {
             CheckConnection.verificarInternet(() -> {
                 if(!CheckConnection.isInternet()) {
                     if(!snackbar_connection.isShown()){
-                        snackbar_connection = Snackbar.make(full_container,
-                                "Verifique sua conexão",
-                                Snackbar.LENGTH_INDEFINITE);
                         snackbar_connection.show();
                     }
                     buscarMeusFilmes(filme_dao.getIdsFilmes());
