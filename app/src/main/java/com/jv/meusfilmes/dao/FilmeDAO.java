@@ -31,18 +31,14 @@ public class FilmeDAO {
         }
     }
 
-    public void salvarListaFilmes(List<Integer> ids_filmes){
-        //if(ids_filmes.size() > 0){
+    public void salvarListaFilmes(List<Integer> ids_filmes) {
+        if(ids_filmes.size() > 0){
             for (int i = 1; i <= ids_filmes.size(); i++) {
                 String chave_filme = "filme_" + i;
-                editor.putInt(chave_filme, ids_filmes.get(i-1));
+                editor.putInt(chave_filme, ids_filmes.get(i - 1));
             }
             editor.apply();
-        //}else{
-            //rv_meus_filmes.setVisibility(View.GONE);
-            //tv_sem_filmes.setVisibility(View.VISIBLE);
-       //}
-
+        }
     }
 
     public List<Integer> getIdsFilmes(){
