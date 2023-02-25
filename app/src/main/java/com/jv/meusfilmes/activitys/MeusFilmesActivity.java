@@ -123,7 +123,7 @@ public class MeusFilmesActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         limparListaFilmes();
         if(ids_filmes != null){
-            //Inicia timer que verificará se existe conexão daqui 8 segundos, se não houver uma mensagem será exibida
+            //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
             CheckConnection.verificarInternet(() -> {
                 if(!CheckConnection.isInternet()) {
                     if(!snackbar_connection.isShown()){
