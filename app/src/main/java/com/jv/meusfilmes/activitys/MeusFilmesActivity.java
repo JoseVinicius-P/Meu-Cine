@@ -1,6 +1,7 @@
 package com.jv.meusfilmes.activitys;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,11 +14,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.jv.meusfilmes.R;
 import com.jv.meusfilmes.adapters.AdapterFilmes;
 import com.jv.meusfilmes.api.TmdbFilme;
 import com.jv.meusfilmes.dao.FilmeDAO;
 import com.jv.meusfilmes.models.Filme;
+import com.jv.meusfilmes.utilities.CheckConnection;
 import com.jv.meusfilmes.utilities.RecyclerItemClickListener;
 
 import java.util.ArrayList;
@@ -34,6 +37,9 @@ public class MeusFilmesActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private TextView tv_sem_filmes;
     private ProgressBar progressBar;
+    private ConstraintLayout full_container;
+
+    private Snackbar snackbar_connection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +48,20 @@ public class MeusFilmesActivity extends AppCompatActivity {
 
         inicializarComponentes();
         addListeners();
+        if(!CheckConnection.verificarConexao(this)){
+            snackbar_connection = Snackbar.make(full_container, "Verifique sua conexão", Snackbar.LENGTH_INDEFINITE);
+            snackbar_connection.show();
+        };
         buscarMeusFilmes(filme_dao.getIdsFilmes());
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
+        if(!CheckConnection.verificarConexao(this)){
+            snackbar_connection = Snackbar.make(full_container, "Verifique sua conexão", Snackbar.LENGTH_INDEFINITE);
+            snackbar_connection.show();
+        };
         buscarMeusFilmes(filme_dao.getIdsFilmes());
     }
 
@@ -61,6 +75,7 @@ public class MeusFilmesActivity extends AppCompatActivity {
         rv_meus_filmes.setHasFixedSize(true);
         tv_sem_filmes = findViewById(R.id.tv_sem_filmes);
         progressBar = findViewById(R.id.progressBarLayout);
+        full_container = findViewById(R.id.full_container);
     }
 
     private void addListeners(){
@@ -107,6 +122,21 @@ public class MeusFilmesActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         limparListaFilmes();
         if(ids_filmes != null){
+            //Inicia timer que verificará se existe conexão daqui 8 segundos, se não houver uma mensagem será exibida
+            CheckConnection.verificarInternet(() -> {
+                if(!CheckConnection.isInternet()) {
+                    if(!snackbar_connection.isShown()){
+                        snackbar_connection = Snackbar.make(full_container,
+                                "Verifique sua conexão",
+                                Snackbar.LENGTH_INDEFINITE);
+                        snackbar_connection.show();
+                    }
+                    buscarMeusFilmes(filme_dao.getIdsFilmes());
+                }else{
+                    if (snackbar_connection != null)
+                        snackbar_connection.dismiss();
+                }
+            });
             TmdbFilme tmdbFilme = new TmdbFilme(this);
             tmdbFilme.getFilmesPorId(ids_filmes, this);
         }else{

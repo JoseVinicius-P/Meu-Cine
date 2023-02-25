@@ -11,6 +11,7 @@ import com.jv.meusfilmes.activitys.MeusFilmesActivity;
 import com.jv.meusfilmes.interfaces.TmdbService;
 import com.jv.meusfilmes.models.ConjuntoFilmes;
 import com.jv.meusfilmes.models.Filme;
+import com.jv.meusfilmes.utilities.CheckConnection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -122,10 +123,10 @@ public class TmdbFilme {
                 if (response.isSuccessful()){
                     filme = response.body();
                     filmes.add(filme);
-
                     //Verifica se todos os filmes foram recuperados
                     //e envia lista para activity exibir
                     if (filmes.size() == listaFilmesSize){
+                        CheckConnection.setIs_internet(true);
                         Collections.sort(filmes);
                         meusFilmesActivity.exibirFilmes(filmes);
                     }
@@ -135,7 +136,7 @@ public class TmdbFilme {
 
             @Override
             public void onFailure(@NonNull Call<Filme> call, @NonNull Throwable t) {
-                System.out.println("Erro: " + t);
+
             }
         });
     }
