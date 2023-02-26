@@ -187,13 +187,9 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     private void getFilme(int id_filme){
         CheckConnection.verificarInternet(() -> {
             if(!CheckConnection.isInternet()) {
-                if(!snackbar_connection.isShown()){
+                if(!snackbar_connection.isShown())
                     snackbar_connection.show();
-                }
                 getFilme(id_filme);
-            }else{
-                if (snackbar_connection != null)
-                    snackbar_connection.dismiss();
             }
         });
 
@@ -217,10 +213,16 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     }
 
     private void abrirTelaDetalheFilme(Filme filme){
+        dismissSnackbar();
         Intent detalhe_filme = new Intent(this, DetalheFilmeActivity.class);
         detalhe_filme.putExtra("filme", filme);
         startActivity(detalhe_filme);
         finish();
+    }
+
+    private void dismissSnackbar(){
+        if (snackbar_connection != null)
+            snackbar_connection.dismiss();
     }
 
     private void upDateInterface() {
@@ -251,13 +253,9 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     private void getFilmesSimilares(int id_filme){
         CheckConnection.verificarInternet(() -> {
             if(!CheckConnection.isInternet()) {
-                if(!snackbar_connection.isShown()){
+                if(!snackbar_connection.isShown())
                     snackbar_connection.show();
-                }
                 getFilmesSimilares(id_filme);
-            }else{
-                if (snackbar_connection != null)
-                    snackbar_connection.dismiss();
             }
         });
         TmdbFilme tmdbFilme = new TmdbFilme(this);
@@ -343,6 +341,7 @@ public class DetalheFilmeActivity extends AppCompatActivity {
             label_recomendacoes.setVisibility(View.VISIBLE);
             adapter_filmes_similares = new AdapterFilmesSimilares(filmes);
             rv_filmes_similares.setAdapter(adapter_filmes_similares);
+            dismissSnackbar();
         }
     }
 

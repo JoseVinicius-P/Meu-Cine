@@ -36,7 +36,6 @@ public class MeusFilmesActivity extends AppCompatActivity {
     private TextView tv_sem_filmes;
     private ProgressBar progressBar;
     private ConstraintLayout full_container;
-
     private Snackbar snackbar_connection;
 
     @Override
@@ -135,9 +134,6 @@ public class MeusFilmesActivity extends AppCompatActivity {
                     snackbar_connection.show();
                 }
                 buscarMeusFilmes(filme_dao.getIdsFilmes());
-            }else{
-                if (snackbar_connection != null)
-                    snackbar_connection.dismiss();
             }
         });
     }
@@ -159,6 +155,9 @@ public class MeusFilmesActivity extends AppCompatActivity {
         }else{
             tv_sem_filmes.setVisibility(View.VISIBLE);
         }
+
+        if (snackbar_connection != null)
+            snackbar_connection.dismiss();
 
         progressBar.setVisibility(View.GONE);
 
