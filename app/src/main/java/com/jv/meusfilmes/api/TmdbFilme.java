@@ -58,6 +58,7 @@ public class TmdbFilme {
                     if (conjuntoFilmes != null) {
                         filmes = conjuntoFilmes.getFilmes();
                     }
+                    CheckConnection.setIs_internet(true);
                     listaFilmesActivity.exibirFilmes(filmes);
                 }
             }
@@ -91,6 +92,8 @@ public class TmdbFilme {
                         listaFilmesActivity.exibirFilmes(filmes);
                     else
                         listaFilmesActivity.exibirFilmes(null);
+
+                    CheckConnection.setIs_internet(true);
                 }
             }
 
