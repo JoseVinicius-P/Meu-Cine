@@ -53,6 +53,8 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     private AdapterCompanhiasProdutoras adapter_companhias_produtoras;
     private AdapterFilmesSimilares adapter_filmes_similares;
     private RecyclerView.LayoutManager lm_campanhias_produtoras, lm_filmes_similares;
+    //Esse objeto está sedo usando para armazena o listener do on touch para possibilitar remover e adicionar a Recycler view
+    private RecyclerItemClickListener recycler_item_click_listener;
     private View view_touched;
     private MaterialButton bt_exluir_filme, bt_add_filme;
     //Classe usada para acessar as shareds preferences da lista de filmes
@@ -81,6 +83,15 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Adcionando Listener de toque no item a recycler view
+        //Está sendo adicionado aqui por que ele está sendo retirado
+        //quando o usuário toca nele para evitar tela duplicada
+        rv_filmes_similares.addOnItemTouchListener(recycler_item_click_listener);
     }
 
     private void configurarToobar(){
@@ -128,12 +139,14 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     private void inicializarListenners(){
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
-        rv_filmes_similares.addOnItemTouchListener(new RecyclerItemClickListener(
+        //inicializando listener que será adicionado no OnResume
+        recycler_item_click_listener = new RecyclerItemClickListener(
                 getApplicationContext(),
                 rv_filmes_similares,
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+                        rv_filmes_similares.removeOnItemTouchListener(recycler_item_click_listener);
                         view_touched = view;
                         setCarregamento(true);
                         getFilme(adapter_filmes_similares.getIdFilme(position));
@@ -149,7 +162,7 @@ public class DetalheFilmeActivity extends AppCompatActivity {
 
                     }
                 }
-        ));
+        );
 
         bt_add_filme.setOnClickListener(v -> {
             filme_dao.addFilmeALista(filme.getId());
