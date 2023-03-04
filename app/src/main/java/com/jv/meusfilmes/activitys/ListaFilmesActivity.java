@@ -282,6 +282,11 @@ public class ListaFilmesActivity extends AppCompatActivity {
     //Esse metodo é usado na incialização, no carregamento de mais paginas conforme rolagem do usuario e após finalização de pesquisa
     private void buscarFilmes(int page){
 
+        tv_sem_resultados.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        TmdbFilme tmdbFilme = new TmdbFilme(this);
+        tmdbFilme.getFilmesPopulares(listaFilmesActivity, page);
+
         //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
         CheckConnection.verificarInternet(() -> {
             if(!CheckConnection.isInternet() && !TmdbFilme.currentCallIsAtiva()) {
@@ -291,11 +296,6 @@ public class ListaFilmesActivity extends AppCompatActivity {
                 buscarFilmes(page);
             }
         });
-
-        tv_sem_resultados.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-        TmdbFilme tmdbFilme = new TmdbFilme(this);
-        tmdbFilme.getFilmesPopulares(listaFilmesActivity, page);
     }
 
     private void pesquisarFilmes(int page, String query){
@@ -304,6 +304,13 @@ public class ListaFilmesActivity extends AppCompatActivity {
         if(page == 1){
             limparListaFilmes();
         }
+
+        //Cancelando call que pode estar ativa
+        //para não haver carregamento sobreposto
+        TmdbFilme.cancelCurrentCall();
+        progressBar.setVisibility(View.VISIBLE);
+        TmdbFilme tmdbFilme = new TmdbFilme(this);
+        tmdbFilme.pesquisarFilmes(listaFilmesActivity, page, query);
 
         //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
         CheckConnection.verificarInternet(() -> {
@@ -314,13 +321,6 @@ public class ListaFilmesActivity extends AppCompatActivity {
                 pesquisarFilmes(page, query);
             }
         });
-
-        //Cancelando call que pode estar ativa
-        //para não haver carregamento sobreposto
-        TmdbFilme.cancelCurrentCall();
-        progressBar.setVisibility(View.VISIBLE);
-        TmdbFilme tmdbFilme = new TmdbFilme(this);
-        tmdbFilme.pesquisarFilmes(listaFilmesActivity, page, query);
     }
 
     public void exibirFilmes(List<Filme> filmes){
