@@ -142,13 +142,14 @@ public class TmdbFilme {
                         Collections.sort(filmes);
                         meusFilmesActivity.exibirFilmes(filmes);
                     }
-
+                }else{
+                    getFilme(id_filme, listaFilmesSize, meusFilmesActivity);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Filme> call, @NonNull Throwable t) {
-
+                getFilme(id_filme, listaFilmesSize, meusFilmesActivity);
             }
         });
     }

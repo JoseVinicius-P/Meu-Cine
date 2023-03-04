@@ -127,9 +127,9 @@ public class MeusFilmesActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         limparListaFilmes();
         if(ids_filmes != null){
-            verificarInternet();
             TmdbFilme tmdbFilme = new TmdbFilme(this);
             tmdbFilme.getFilmesPorId(ids_filmes, this);
+            verificarInternet();
         }else{
             progressBar.setVisibility(View.GONE);
             tv_sem_filmes.setVisibility(View.VISIBLE);
@@ -141,10 +141,8 @@ public class MeusFilmesActivity extends AppCompatActivity {
         //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
         CheckConnection.verificarInternet(() -> {
             if(!CheckConnection.isInternet()) {
-                if(!snackbar_connection.isShown()){
+                if(!snackbar_connection.isShown())
                     snackbar_connection.show();
-                }
-                buscarMeusFilmes(filme_dao.getIdsFilmes());
             }
         });
     }
