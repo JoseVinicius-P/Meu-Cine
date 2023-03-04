@@ -48,6 +48,7 @@ public class TmdbFilme {
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
         Call<ConjuntoFilmes> call = tmdb_service.getFilmesPopulares(apiKey, page);
 
+        current_call = call;
 
         call.enqueue(new Callback<ConjuntoFilmes>() {
             @Override
@@ -76,7 +77,7 @@ public class TmdbFilme {
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
         Call<ConjuntoFilmes> call = tmdb_service.pesquisarFilmes(apiKey, page, query);
-
+        current_call = call;
 
         call.enqueue(new Callback<ConjuntoFilmes>() {
             @Override
@@ -120,6 +121,7 @@ public class TmdbFilme {
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
         Call<Filme> call = tmdb_service.getFilme(id_filme, apiKey);
+        current_call = call;
 
         call.enqueue(new Callback<Filme>() {
             @Override
@@ -158,6 +160,7 @@ public class TmdbFilme {
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
         Call<ConjuntoFilmes> call = tmdb_service.getFilmesSimilares(id_filme, apiKey);
+        current_call = call;
 
         call.enqueue(new Callback<ConjuntoFilmes>() {
             @Override
