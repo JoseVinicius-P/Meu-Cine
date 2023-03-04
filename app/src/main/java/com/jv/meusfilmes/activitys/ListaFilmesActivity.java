@@ -234,21 +234,12 @@ public class ListaFilmesActivity extends AppCompatActivity {
 
     private void getFilme(int id_filme){
 
-        //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
-        CheckConnection.verificarInternet(() -> {
-            if(!CheckConnection.isInternet()) {
-                if(!snackbar_connection.isShown()){
-                    snackbar_connection.show();
-                }
-                getFilme(id_filme);
-            }
-        });
-
         TmdbFilme tmdbFilme = new TmdbFilme(this);
         tmdbFilme.getFilme(id_filme, new Callback<Filme>() {
             @Override
             public void onResponse(@NonNull Call<Filme> call, @NonNull Response<Filme> response) {
                 if(response.isSuccessful()){
+                    CheckConnection.setIs_internet(true);
                     Filme filme = response.body();
                     abrirTelaDetalheFilme(filme);
                     setCarregamento(false);
@@ -258,6 +249,16 @@ public class ListaFilmesActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<Filme> call, @NonNull Throwable t) {
 
+            }
+        });
+
+        //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
+        CheckConnection.verificarInternet(() -> {
+            if(!CheckConnection.isInternet() && !TmdbFilme.currentCallIsAtiva()) {
+                if(!snackbar_connection.isShown()){
+                    snackbar_connection.show();
+                }
+                getFilme(id_filme);
             }
         });
     }
@@ -306,7 +307,7 @@ public class ListaFilmesActivity extends AppCompatActivity {
 
         //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
         CheckConnection.verificarInternet(() -> {
-            if(!CheckConnection.isInternet()) {
+            if(!CheckConnection.isInternet() && !TmdbFilme.currentCallIsAtiva()) {
                 if(!snackbar_connection.isShown()){
                     snackbar_connection.show();
                 }
@@ -344,7 +345,6 @@ public class ListaFilmesActivity extends AppCompatActivity {
             snackbar_connection.dismiss();
 
         progressBar.setVisibility(View.GONE);
-
     }
 
     private void verificarConexao(){
