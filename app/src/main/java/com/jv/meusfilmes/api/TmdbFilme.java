@@ -31,6 +31,7 @@ public class TmdbFilme {
     private List<Filme> filmes = new ArrayList<>();
     private String apiKey;
 
+    private static Call<?> current_call;
 
     public TmdbFilme(Context context) {
         retrofit = new Retrofit.Builder()
@@ -148,6 +149,7 @@ public class TmdbFilme {
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
         Call<Filme> call = tmdb_service.getFilme(id_filme, apiKey);
+        current_call = call;
 
         call.enqueue(callback);
     }
@@ -176,5 +178,11 @@ public class TmdbFilme {
 
             }
         });
+    }
+
+    public static void cancelCurrentCall(){
+        if (current_call != null){
+            current_call.cancel();
+        }
     }
 }

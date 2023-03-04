@@ -81,6 +81,12 @@ public class ListaFilmesActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        TmdbFilme.cancelCurrentCall();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_seach, menu);
 

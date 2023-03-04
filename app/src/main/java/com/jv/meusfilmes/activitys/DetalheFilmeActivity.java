@@ -94,6 +94,12 @@ public class DetalheFilmeActivity extends AppCompatActivity {
         rv_filmes_similares.addOnItemTouchListener(recycler_item_click_listener);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        TmdbFilme.cancelCurrentCall();
+    }
+
     private void configurarToobar(){
         toolbar = findViewById(R.id.toobar);
         setSupportActionBar(toolbar);
