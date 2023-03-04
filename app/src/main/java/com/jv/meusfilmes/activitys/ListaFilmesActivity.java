@@ -283,7 +283,7 @@ public class ListaFilmesActivity extends AppCompatActivity {
 
         //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
         CheckConnection.verificarInternet(() -> {
-            if(!CheckConnection.isInternet()) {
+            if(!CheckConnection.isInternet() && !TmdbFilme.currentCallIsAtiva()) {
                 if(!snackbar_connection.isShown()){
                     snackbar_connection.show();
                 }
@@ -314,6 +314,9 @@ public class ListaFilmesActivity extends AppCompatActivity {
             }
         });
 
+        //Cancelando call que pode estar ativa
+        //para não haver carregamento sobreposto
+        TmdbFilme.cancelCurrentCall();
         progressBar.setVisibility(View.VISIBLE);
         TmdbFilme tmdbFilme = new TmdbFilme(this);
         tmdbFilme.pesquisarFilmes(listaFilmesActivity, page, query);

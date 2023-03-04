@@ -47,7 +47,7 @@ public class TmdbFilme {
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
         Call<ConjuntoFilmes> call = tmdb_service.getFilmesPopulares(apiKey, page);
-
+        //Atualizando call que está sendo executada
         current_call = call;
 
         call.enqueue(new Callback<ConjuntoFilmes>() {
@@ -77,6 +77,7 @@ public class TmdbFilme {
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
         Call<ConjuntoFilmes> call = tmdb_service.pesquisarFilmes(apiKey, page, query);
+        //Atualizando call que está sendo executada
         current_call = call;
 
         call.enqueue(new Callback<ConjuntoFilmes>() {
@@ -121,6 +122,7 @@ public class TmdbFilme {
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
         Call<Filme> call = tmdb_service.getFilme(id_filme, apiKey);
+        //Atualizando call que está sendo executada
         current_call = call;
 
         call.enqueue(new Callback<Filme>() {
@@ -151,6 +153,7 @@ public class TmdbFilme {
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
         Call<Filme> call = tmdb_service.getFilme(id_filme, apiKey);
+        //Atualizando call que está sendo executada
         current_call = call;
 
         call.enqueue(callback);
@@ -160,6 +163,7 @@ public class TmdbFilme {
         //Configuração do retrofit
         TmdbService tmdb_service = retrofit.create(TmdbService.class);
         Call<ConjuntoFilmes> call = tmdb_service.getFilmesSimilares(id_filme, apiKey);
+        //Atualizando call que está sendo executada
         current_call = call;
 
         call.enqueue(new Callback<ConjuntoFilmes>() {
@@ -186,6 +190,19 @@ public class TmdbFilme {
     public static void cancelCurrentCall(){
         if (current_call != null){
             current_call.cancel();
+        }
+    }
+
+    //este metodo é usado para determinar se a chamada está ativa
+    public static boolean currentCallIsAtiva(){
+        if(current_call != null){
+            if (current_call.isExecuted() || current_call.isCanceled()){
+                return false;
+            }else {
+                return true;
+            }
+        }else{
+            return false;
         }
     }
 }
