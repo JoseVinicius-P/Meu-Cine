@@ -243,22 +243,23 @@ public class ListaFilmesActivity extends AppCompatActivity {
                     Filme filme = response.body();
                     abrirTelaDetalheFilme(filme);
                     setCarregamento(false);
+                }else{
+                    getFilme(id_filme);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Filme> call, @NonNull Throwable t) {
-
+                getFilme(id_filme);
             }
         });
 
         //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
         CheckConnection.verificarInternet(() -> {
-            if(!CheckConnection.isInternet() && !TmdbFilme.currentCallIsAtiva()) {
+            if(!CheckConnection.isInternet()) {
                 if(!snackbar_connection.isShown()){
                     snackbar_connection.show();
                 }
-                getFilme(id_filme);
             }
         });
     }
@@ -289,11 +290,10 @@ public class ListaFilmesActivity extends AppCompatActivity {
 
         //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
         CheckConnection.verificarInternet(() -> {
-            if(!CheckConnection.isInternet() && !TmdbFilme.currentCallIsAtiva()) {
+            if(!CheckConnection.isInternet()) {
                 if(!snackbar_connection.isShown()){
                     snackbar_connection.show();
                 }
-                buscarFilmes(page);
             }
         });
     }
@@ -314,11 +314,9 @@ public class ListaFilmesActivity extends AppCompatActivity {
 
         //Inicia timer que verificará se existe conexão daqui 5 segundos, se não houver uma mensagem será exibida
         CheckConnection.verificarInternet(() -> {
-            if(!CheckConnection.isInternet() && !TmdbFilme.currentCallIsAtiva()) {
-                if(!snackbar_connection.isShown()){
+            if(!CheckConnection.isInternet()) {
+                if(!snackbar_connection.isShown())
                     snackbar_connection.show();
-                }
-                pesquisarFilmes(page, query);
             }
         });
     }

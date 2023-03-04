@@ -62,12 +62,14 @@ public class TmdbFilme {
                     }
                     CheckConnection.setIs_internet(true);
                     listaFilmesActivity.exibirFilmes(filmes);
+                }else{
+                    getFilmesPopulares(listaFilmesActivity, page);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ConjuntoFilmes> call, @NonNull Throwable t) {
-                System.out.println("Erro: " + t);
+                getFilmesPopulares(listaFilmesActivity, page);
             }
         });
     }
@@ -97,12 +99,14 @@ public class TmdbFilme {
                         listaFilmesActivity.exibirFilmes(null);
 
                     CheckConnection.setIs_internet(true);
+                }else{
+                    pesquisarFilmes(listaFilmesActivity, page, query);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ConjuntoFilmes> call, @NonNull Throwable t) {
-                System.out.println("Erro: " + t);
+                pesquisarFilmes(listaFilmesActivity, page, query);
             }
         });
     }
