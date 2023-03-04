@@ -41,6 +41,8 @@ public class ListaFilmesActivity extends AppCompatActivity {
     private RecyclerView rv_filmes;
     private AdapterFilmes adapter_filmes;
     private RecyclerView.LayoutManager layoutManager;
+    //Esse objeto está sedo usando para armazena o listener do on touch para possibilitar remover e adicionar a Recycler view
+    private RecyclerItemClickListener recycler_item_click_listener;
     private ListaFilmesActivity listaFilmesActivity;
     private ProgressBar progressBar;
     private Toolbar toolbar;
@@ -70,6 +72,15 @@ public class ListaFilmesActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        //Adcionando Listener de toque no item a recycler view
+        //Está sendo adicionado aqui por que ele está sendo retirado
+        //quando o usuário toca nele para evitar tela duplicada
+        rv_filmes.addOnItemTouchListener(recycler_item_click_listener);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_seach, menu);
 
@@ -86,6 +97,8 @@ public class ListaFilmesActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+
 
     private void inicializarListenersSearch(SearchView searchView){
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -159,29 +172,29 @@ public class ListaFilmesActivity extends AppCompatActivity {
                 finish();
         });
 
-        rv_filmes.addOnItemTouchListener(
-                new RecyclerItemClickListener(
-                        getApplicationContext(),
-                        rv_filmes,
-                        new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                view_touched = view;
-                                setCarregamento(true);
-                                getFilme(adapter_filmes.getIdFilme(position));
-                            }
+        //inicializando listener que será adicionado no OnResume
+        recycler_item_click_listener = new RecyclerItemClickListener(
+                getApplicationContext(),
+                rv_filmes,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        rv_filmes.removeOnItemTouchListener(recycler_item_click_listener);
+                        view_touched = view;
+                        setCarregamento(true);
+                        getFilme(adapter_filmes.getIdFilme(position));
+                    }
 
-                            @Override
-                            public void onLongItemClick(View view, int position) {
-                                initAddFilme(adapter_filmes.getIdFilme(position));
-                            }
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                        initAddFilme(adapter_filmes.getIdFilme(position));
+                    }
 
-                            @Override
-                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                            }
-                        }
-                )
+                    }
+                }
         );
     }
 
