@@ -177,12 +177,14 @@ public class TmdbFilme {
                     }
                     detalhe_filme_activity.exibirFilmesSimilares(filmes);
                     CheckConnection.setIs_internet(true);
+                }else{
+                    getFilmesSimilares(id_filme, detalhe_filme_activity);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ConjuntoFilmes> call, @NonNull Throwable t) {
-
+                getFilmesSimilares(id_filme, detalhe_filme_activity);
             }
         });
     }

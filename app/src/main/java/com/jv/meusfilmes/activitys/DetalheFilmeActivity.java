@@ -204,13 +204,6 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     }
 
     private void getFilme(int id_filme){
-        CheckConnection.verificarInternet(() -> {
-            if(!CheckConnection.isInternet()) {
-                if(!snackbar_connection.isShown())
-                    snackbar_connection.show();
-                getFilme(id_filme);
-            }
-        });
 
         TmdbFilme tmdbFilme = new TmdbFilme(this);
         tmdbFilme.getFilme(id_filme, new retrofit2.Callback<Filme>() {
@@ -221,12 +214,21 @@ public class DetalheFilmeActivity extends AppCompatActivity {
                     Filme filme = response.body();
                     abrirTelaDetalheFilme(filme);
                     setCarregamento(false);
+                }else{
+                    getFilme(id_filme);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Filme> call, @NonNull Throwable t) {
+                getFilme(id_filme);
+            }
+        });
 
+        CheckConnection.verificarInternet(() -> {
+            if(!CheckConnection.isInternet()) {
+                if(!snackbar_connection.isShown())
+                    snackbar_connection.show();
             }
         });
     }
@@ -270,15 +272,15 @@ public class DetalheFilmeActivity extends AppCompatActivity {
     }
 
     private void getFilmesSimilares(int id_filme){
+        TmdbFilme tmdbFilme = new TmdbFilme(this);
+        tmdbFilme.getFilmesSimilares(id_filme, this);
+
         CheckConnection.verificarInternet(() -> {
             if(!CheckConnection.isInternet()) {
                 if(!snackbar_connection.isShown())
                     snackbar_connection.show();
-                getFilmesSimilares(id_filme);
             }
         });
-        TmdbFilme tmdbFilme = new TmdbFilme(this);
-        tmdbFilme.getFilmesSimilares(id_filme, this);
     }
 
     private void exibirCompanhiasProdutoras(List<CompanhiaProdutora> companhia_produtoras){
