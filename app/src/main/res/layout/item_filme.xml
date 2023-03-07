@@ -20,6 +20,15 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/poster_filme" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:visibility="gone" />
+
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -49,16 +58,5 @@
         android:textSize="11sp"
         android:layout_below="@id/vote_average"
         android:textColor="@color/gray_ligth"/>
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
-            android:visibility="gone"/>
-
-
 
 </RelativeLayout>

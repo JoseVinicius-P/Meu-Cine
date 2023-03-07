@@ -224,9 +224,10 @@ public class ListaFilmesActivity extends AppCompatActivity {
     }
 
     private void setCarregamento(boolean is_carregando){
+        //Se o carremento for true a progress bar ficará visivel e o item ficará um pouco tranparente
         if(is_carregando){
             view_touched.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-            view_touched.setAlpha(0.3f);
+            view_touched.setAlpha(0.6f);
         }else{
             view_touched.findViewById(R.id.progressBar).setVisibility(View.GONE);
             view_touched.setAlpha(1f);
