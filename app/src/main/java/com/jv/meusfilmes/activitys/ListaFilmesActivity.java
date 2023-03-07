@@ -340,7 +340,7 @@ public class ListaFilmesActivity extends AppCompatActivity {
             //caso seja a primeira exibição o adapter estará nulo e receberá uma lista de filmes
             //caso o adapter tenha sido instanciado somente serão adicionados novos itens
             if (adapter_filmes == null){
-                adapter_filmes = new AdapterFilmes(filmes, this);
+                adapter_filmes = new AdapterFilmes(filmes, this, R.layout.item_filme);
                 rv_filmes.setAdapter(adapter_filmes);
             }else{
                 adapter_filmes.addFilmes(filmes);

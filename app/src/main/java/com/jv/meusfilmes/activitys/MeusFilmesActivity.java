@@ -158,7 +158,7 @@ public class MeusFilmesActivity extends AppCompatActivity {
         if(filmes != null){
             //Só por garantia este textview será escondido aqui
             tv_sem_filmes.setVisibility(View.GONE);
-            adapter_filmes = new AdapterFilmes(filmes, this);
+            adapter_filmes = new AdapterFilmes(filmes, this, R.layout.item_filme_poster);
             rv_meus_filmes.setAdapter(adapter_filmes);
 
         }else{

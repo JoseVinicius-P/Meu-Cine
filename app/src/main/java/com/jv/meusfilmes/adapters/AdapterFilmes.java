@@ -24,9 +24,12 @@ public class AdapterFilmes extends RecyclerView.Adapter<AdapterFilmes.ViewHolder
     private List<Filme> filmes;
     private Context context;
 
-    public AdapterFilmes(List<Filme> filmes, Context context) {
+    private int layout;
+
+    public AdapterFilmes(List<Filme> filmes, Context context, int layout) {
         this.filmes = filmes;
         this.context = context;
+        this.layout = layout;
     }
 
     @NonNull
@@ -35,7 +38,7 @@ public class AdapterFilmes extends RecyclerView.Adapter<AdapterFilmes.ViewHolder
 
         //Convertendo o XML do item do filme em uma view
         View item_filme = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_filme, parent, false);
+                .inflate(layout, parent, false);
 
         return new ViewHolderFilme(item_filme);
     }
@@ -44,11 +47,17 @@ public class AdapterFilmes extends RecyclerView.Adapter<AdapterFilmes.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolderFilme holder, int position) {
         Filme filme = filmes.get(position);
-        holder.tv_title.setText(filme.getTitle());
-        holder.vote_average.setText(Formatter.formatterVoteAverage(filme.getVote_average()));
-        setCorAprovacao(holder.vote_average, (int) (Double.parseDouble(filme.getVote_average())*10));
-        //Criei uma classe para formação da data recebida da api
-        holder.tv_date.setText(Formatter.formatterDate(filme.getRelease_date()));
+
+        //Este Adapter pode ser utilizado usando dois layouts distintos
+        //se for o item_filme os dados contidos no if serão carregados
+        if(layout == R.layout.item_filme){
+            holder.tv_title.setText(filme.getTitle());
+            holder.vote_average.setText(Formatter.formatterVoteAverage(filme.getVote_average()));
+            setCorAprovacao(holder.vote_average, (int) (Double.parseDouble(filme.getVote_average())*10));
+            //Criei uma classe para formação da data recebida da api
+            holder.tv_date.setText(Formatter.formatterDate(filme.getRelease_date()));
+        }
+
         //Carregado Imagem
         Picasso.get()
                 .load("https://image.tmdb.org/t/p/w500"
