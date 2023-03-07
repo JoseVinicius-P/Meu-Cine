@@ -80,9 +80,11 @@ public class ListaFilmesActivity extends AppCompatActivity {
         rv_filmes.addOnItemTouchListener(recycler_item_click_listener);
     }
 
+    //No momento que o usuário sair da tela a call atual será cancelada
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
+        //No momento que o usuário sair da tela a call atual será cancelada
         TmdbFilme.cancelCurrentCall();
     }
 
@@ -244,13 +246,21 @@ public class ListaFilmesActivity extends AppCompatActivity {
                     abrirTelaDetalheFilme(filme);
                     setCarregamento(false);
                 }else{
-                    getFilme(id_filme);
+                    //Verificando se não existe nenhuma call ativa para não sobrepor calls
+                    //E verificando se esta call não foi cancelada
+                    if (!TmdbFilme.currentCallIsAtiva() && !call.isCanceled()) {
+                        getFilme(id_filme);
+                    }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Filme> call, @NonNull Throwable t) {
-                getFilme(id_filme);
+                //Verificando se não existe nenhuma call ativa para não sobrepor calls
+                //E verificando se esta call não foi cancelada
+                if (!TmdbFilme.currentCallIsAtiva() && !call.isCanceled()) {
+                    getFilme(id_filme);
+                }
             }
         });
 

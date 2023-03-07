@@ -63,13 +63,22 @@ public class TmdbFilme {
                     CheckConnection.setIs_internet(true);
                     listaFilmesActivity.exibirFilmes(filmes);
                 }else{
-                    getFilmesPopulares(listaFilmesActivity, page);
+                    //Verificando se não existe nenhuma call ativa para não sobrepor calls
+                    //E verificando se esta call não foi cancelada
+                    if (!currentCallIsAtiva() && !call.isCanceled()){
+                        getFilmesPopulares(listaFilmesActivity, page);
+                    }
+
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ConjuntoFilmes> call, @NonNull Throwable t) {
-                getFilmesPopulares(listaFilmesActivity, page);
+                //Verificando se não existe nenhuma call ativa para não sobrepor calls
+                //E verificando se esta call não foi cancelada
+                if (!currentCallIsAtiva() && !call.isCanceled()){
+                    getFilmesPopulares(listaFilmesActivity, page);
+                }
             }
         });
     }
@@ -100,13 +109,21 @@ public class TmdbFilme {
 
                     CheckConnection.setIs_internet(true);
                 }else{
-                    pesquisarFilmes(listaFilmesActivity, page, query);
+                    //Verificando se não existe nenhuma call ativa para não sobrepor calls
+                    //E verificando se esta call não foi cancelada
+                    if (!currentCallIsAtiva() && !call.isCanceled()) {
+                        pesquisarFilmes(listaFilmesActivity, page, query);
+                    }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ConjuntoFilmes> call, @NonNull Throwable t) {
-                pesquisarFilmes(listaFilmesActivity, page, query);
+                //Verificando se não existe nenhuma call ativa para não sobrepor calls
+                //E verificando se esta call não foi cancelada
+                if (!currentCallIsAtiva() && !call.isCanceled()) {
+                    pesquisarFilmes(listaFilmesActivity, page, query);
+                }
             }
         });
     }
@@ -183,20 +200,30 @@ public class TmdbFilme {
                     detalhe_filme_activity.exibirFilmesSimilares(filmes);
                     CheckConnection.setIs_internet(true);
                 }else{
-                    getFilmesSimilares(id_filme, detalhe_filme_activity);
+                    //Verificando se não existe nenhuma call ativa para não sobrepor calls
+                    //E verificando se esta call não foi cancelada
+                    if (!currentCallIsAtiva() && !call.isCanceled()) {
+                        getFilmesSimilares(id_filme, detalhe_filme_activity);
+                    }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ConjuntoFilmes> call, @NonNull Throwable t) {
-                getFilmesSimilares(id_filme, detalhe_filme_activity);
+                //Verificando se não existe nenhuma call ativa para não sobrepor calls
+                //E verificando se esta call não foi cancelada
+                if (!currentCallIsAtiva() && !call.isCanceled()) {
+                    getFilmesSimilares(id_filme, detalhe_filme_activity);
+                }
             }
         });
     }
 
+    //Metodo usado para cancelar a call ativa
     public static void cancelCurrentCall(){
         if (current_call != null){
             current_call.cancel();
+            current_call = null;
         }
     }
 
