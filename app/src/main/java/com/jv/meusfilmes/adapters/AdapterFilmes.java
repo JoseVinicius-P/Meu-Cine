@@ -69,10 +69,10 @@ public class AdapterFilmes extends RecyclerView.Adapter<AdapterFilmes.ViewHolder
         );
         if(position % 2 == 0){
             // Define as margens esquerda, topo, direita e baixo em pixels
-            params.setMargins(0, getPixels(20), getPixels(10), 0);
+            params.setMargins(0, getPixels(10), getPixels(10), getPixels(10));
         }else{
             // Define as margens esquerda, topo, direita e baixo em pixels
-            params.setMargins(getPixels(10), getPixels(20),0, 0);
+            params.setMargins(getPixels(10), getPixels(10),0, getPixels(10));
         }
 
         // Define os novos LayoutParams para o elemento
