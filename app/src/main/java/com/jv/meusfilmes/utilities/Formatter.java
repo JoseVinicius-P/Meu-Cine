@@ -14,7 +14,7 @@ public abstract class Formatter {
 
     public static String formatterVoteAverage(String vote_average){
         int porcentagem = (int) (Double.parseDouble(vote_average)*10);
-        return porcentagem + "% gostou";
+        return porcentagem + "% aprovação";
     }
 
     public static String formatterDate(String data_string){
