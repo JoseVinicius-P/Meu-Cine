@@ -116,6 +116,7 @@ public class MeusFilmesActivity extends AppCompatActivity {
                     filmes.add(filme);
                     Collections.sort(filmes);
                     adapter_filmes.addFilmeOnPosition(filme, filmes.indexOf(filme));
+                    snackbar_connection.dismiss();
                 }else{
                     //Verificando se não existe nenhuma call ativa para não sobrepor calls
                     //E verificando se esta call não foi cancelada
