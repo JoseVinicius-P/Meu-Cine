@@ -119,9 +119,15 @@ public class AdapterFilmes extends RecyclerView.Adapter<AdapterFilmes.ViewHolder
         notifyItemRangeInserted(initialSize, novosFilmes.size());
     }
 
+    public void addFilmeOnPosition(Filme filme, int position){
+        filmes.remove(filme);
+        filmes.add(position, filme);
+        notifyItemInserted(position);
+        notifyItemRangeChanged(position, filmes.size() - position-1);
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     public void clear() {
-        int size = filmes.size();
         filmes.clear();
         notifyDataSetChanged();
     }
@@ -134,9 +140,22 @@ public class AdapterFilmes extends RecyclerView.Adapter<AdapterFilmes.ViewHolder
         return filmes;
     }
 
+    public boolean containsFilme(int id_filme){
+        boolean contains = false;
+        for (Filme filme: filmes){
+            if (filme.getId() == id_filme) {
+                contains = true;
+                break;
+            }
+        }
+
+        return contains;
+    }
+
     public void removerFilme(int position){
         filmes.remove(position);
         notifyItemRemoved(position);
+        notifyItemRangeChanged(position, filmes.size() - position+1);
     }
 
     //Esta classe é usada como objetos que representam as views na recycler view

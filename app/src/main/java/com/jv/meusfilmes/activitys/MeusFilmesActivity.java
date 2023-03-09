@@ -1,5 +1,6 @@
 package com.jv.meusfilmes.activitys;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,7 +23,12 @@ import com.jv.meusfilmes.models.Filme;
 import com.jv.meusfilmes.utilities.CheckConnection;
 import com.jv.meusfilmes.utilities.RecyclerItemClickListener;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MeusFilmesActivity extends AppCompatActivity {
 
@@ -55,17 +61,85 @@ public class MeusFilmesActivity extends AppCompatActivity {
     protected void onPostResume() {
         super.onPostResume();
         verificarConexao();
-        buscarMeusFilmes(filme_dao.getIdsFilmes());
+        addFilmesAdicionados();
+        removerFilmesApagados();
+        //buscarMeusFilmes(filme_dao.getIdsFilmes());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         //Adcionando Listener de toque no item a recycler view
         //Está sendo adicionado aqui por que ele está sendo retirado
         //quando o usuário toca nele para evitar tela duplicada
         rv_meus_filmes.addOnItemTouchListener(recycler_item_click_listener);
+    }
+
+    //Remove itens do adapter caso tenham sido apagados da lista do usuário
+    private void removerFilmesApagados(){
+        if(adapter_filmes != null && adapter_filmes.getListaFilmes() != null && adapter_filmes.getListaFilmes().size() > 0){
+            for (int i = 0; i < adapter_filmes.getListaFilmes().size(); i++) {
+                if(!filme_dao.listaFilmeContains(adapter_filmes.getListaFilmes().get(i).getId())){
+                    adapter_filmes.removerFilme(i);
+                }
+            }
+            if (filme_dao.getIdsFilmes().size() == 0 && adapter_filmes != null){
+                limparListaFilmes();
+                tv_sem_filmes.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private void addFilmesAdicionados(){
+        if(adapter_filmes != null && adapter_filmes.getListaFilmes() != null){
+            for (int i = 0; i < filme_dao.getIdsFilmes().size(); i++) {
+                if (!adapter_filmes.containsFilme(filme_dao.getIdsFilmes().get(i))){
+                    getFilme(filme_dao.getIdsFilmes().get(i));
+                }
+            }
+        }
+    }
+
+    private void getFilme(int id_filme){
+
+        TmdbFilme tmdbFilme = new TmdbFilme(this);
+        tmdbFilme.getFilme(id_filme, new retrofit2.Callback<Filme>() {
+            @Override
+            public void onResponse(@NonNull Call<Filme> call, @NonNull Response<Filme> response) {
+                if(response.isSuccessful()){
+                    CheckConnection.setIs_internet(true);
+                    List<Filme> filmes = adapter_filmes.getListaFilmes();
+                    Filme filme = response.body();
+                    if(filmes == null){
+                        filmes = new ArrayList<>();
+                    }
+                    filmes.add(filme);
+                    Collections.sort(filmes);
+                    adapter_filmes.addFilmeOnPosition(filme, filmes.indexOf(filme));
+                }else{
+                    //Verificando se não existe nenhuma call ativa para não sobrepor calls
+                    //E verificando se esta call não foi cancelada
+                    if (!TmdbFilme.currentCallIsAtiva() && !call.isCanceled()) {
+                        getFilme(id_filme);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<Filme> call, @NonNull Throwable t) {
+                //Verificando se não existe nenhuma call ativa para não sobrepor calls
+                //E verificando se esta call não foi cancelada
+                if (!TmdbFilme.currentCallIsAtiva() && !call.isCanceled()) {
+                    getFilme(id_filme);
+                }
+            }
+        });
+
+        CheckConnection.verificarInternet(() -> {
+            if(!CheckConnection.isInternet()) {
+                if(!snackbar_connection.isShown())
+                    snackbar_connection.show();
+            }
+        });
     }
 
     private void inicializarComponentes(){
@@ -100,8 +174,6 @@ public class MeusFilmesActivity extends AppCompatActivity {
 
                     @Override
                     public void onLongItemClick(View view, int position) {
-                        filme_dao.apagarFilmeLista(adapter_filmes.getIdFilme(position));
-                        adapter_filmes.removerFilme(position);
                     }
 
                     @Override
