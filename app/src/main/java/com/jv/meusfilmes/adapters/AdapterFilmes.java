@@ -123,7 +123,7 @@ public class AdapterFilmes extends RecyclerView.Adapter<AdapterFilmes.ViewHolder
         filmes.remove(filme);
         filmes.add(position, filme);
         notifyItemInserted(position);
-        notifyItemRangeChanged(position, filmes.size() - position-1);
+        notifyItemRangeChanged(position, filmes.size() - position);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -155,7 +155,7 @@ public class AdapterFilmes extends RecyclerView.Adapter<AdapterFilmes.ViewHolder
     public void removerFilme(int position){
         filmes.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, filmes.size() - position+1);
+        notifyItemRangeChanged(position, filmes.size() - position);
     }
 
     //Esta classe é usada como objetos que representam as views na recycler view
