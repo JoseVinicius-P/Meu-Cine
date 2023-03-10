@@ -17,7 +17,7 @@ public class CheckConnection {
         is_internet = false;
         runnable_local = runnable;
         handler = new Handler();
-        handler.postDelayed(runnable, 5000);
+        handler.postDelayed(runnable, 10000);
     }
 
     //Verificar se existe conexão ativa (WIFI, Dados móveis)
