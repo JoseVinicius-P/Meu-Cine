@@ -22,7 +22,7 @@
             android:alpha="0.3"
             android:contentDescription="@string/poster_filme" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -183,8 +183,6 @@
 
                     </RelativeLayout>
 
-
-
                     <TextView
                         android:id="@+id/label_recomendacoes"
                         android:layout_width="wrap_content"
@@ -194,18 +192,20 @@
                         android:layout_marginTop="15dp"
                         android:textSize="16sp"
                         android:layout_below="@id/rl_buttons"/>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_filmes_similares"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_below="@id/label_recomendacoes"/>
                 </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_filmes_similares"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:isScrollContainer="false"/>
 
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </FrameLayout>
 
