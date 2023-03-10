@@ -198,10 +198,11 @@
                     android:id="@+id/rv_filmes_similares"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:isScrollContainer="false"/>
+                    android:paddingTop="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:isScrollContainer="false"
+                    android:background="@color/gray_dark"/>
 
             </LinearLayout>
 
