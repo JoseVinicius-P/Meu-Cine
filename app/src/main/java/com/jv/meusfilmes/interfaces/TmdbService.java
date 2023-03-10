@@ -12,13 +12,13 @@ import retrofit2.http.Query;
 public interface TmdbService {
 
     //Ultilzando o Query para passar page como um parametro na URL (page=N)
-    @GET("movie/popular?language=pt-BR&region=BR")
+    @GET("movie/popular?language=pt-BR")
     Call<ConjuntoFilmes> getFilmesPopulares(@Query("api_key") String api_key, @Query("page") int page);
 
     @GET("movie/{id_filme}/recommendations?language=pt-BR&page=1")
     Call<ConjuntoFilmes> getFilmesSimilares(@Path("id_filme") int id_filme, @Query("api_key") String api_key);
 
-    @GET("search/movie?language=pt-BR&include_adult=false&region=BR")
+    @GET("search/movie?language=pt-BR&include_adult=false")
     Call<ConjuntoFilmes> pesquisarFilmes(@Query("api_key") String api_key, @Query("page") int page, @Query("query") String query);
 
     //Metodo usado para obter um filem de cada vez
