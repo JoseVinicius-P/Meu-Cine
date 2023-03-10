@@ -8,45 +8,51 @@
     android:background="@color/gray_dark"
     tools:context=".activitys.MeusFilmesActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toobar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginBottom="559dp"
+        android:background="@color/gray_dark"
+        android:queryHint="Pesquisar filme..."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Minha Lista"
+        app:titleTextColor="@android:color/white" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_filme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginBottom="60dp"
+        android:contentDescription="@string/adicionar_filme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_filme"
-        android:contentDescription="@string/adicionar_filme" />
+        app:srcCompat="@drawable/ic_add_filme" />
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toobar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/gray_dark"
-                android:queryHint="Pesquisar filme..."
-                app:title="Minha Lista"
-                app:titleTextColor="@android:color/white" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_meus_filmes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"/>
+                android:layout_marginEnd="25dp" />
 
             <TextView
                 android:id="@+id/tv_sem_filmes"
@@ -58,8 +64,8 @@
                 android:text="@string/nenhum_filme_na_sua_lista"
                 android:textAlignment="center"
                 android:textColor="@color/gray_ligth"
-                android:textStyle="bold"
                 android:textSize="17sp"
+                android:textStyle="bold"
                 android:visibility="gone" />
 
             <ProgressBar
