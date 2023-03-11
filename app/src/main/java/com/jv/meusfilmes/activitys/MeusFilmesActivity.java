@@ -53,17 +53,17 @@ public class MeusFilmesActivity extends AppCompatActivity {
 
         inicializarComponentes();
         addListeners();
-        verificarConexao();
         buscarMeusFilmes(filme_dao.getIdsFilmes());
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        verificarConexao();
+        //Verifica a conexão somente se for utiliza-la
+        if(filme_dao.getIdsFilmes() != null && filme_dao.getIdsFilmes().size() > 0)
+            verificarConexao();
         addFilmesAdicionados();
         removerFilmesApagados();
-        //buscarMeusFilmes(filme_dao.getIdsFilmes());
     }
 
     @Override
@@ -91,12 +91,17 @@ public class MeusFilmesActivity extends AppCompatActivity {
     }
 
     private void addFilmesAdicionados(){
-        if(adapter_filmes != null && adapter_filmes.getListaFilmes() != null){
+        if(adapter_filmes != null
+                && adapter_filmes.getListaFilmes() != null
+                && filme_dao.getIdsFilmes() != null){
+
             for (int i = 0; i < filme_dao.getIdsFilmes().size(); i++) {
                 if (!adapter_filmes.containsFilme(filme_dao.getIdsFilmes().get(i))){
                     getFilme(filme_dao.getIdsFilmes().get(i));
                 }
             }
+        }else{
+            buscarMeusFilmes(filme_dao.getIdsFilmes());
         }
     }
 
@@ -206,6 +211,7 @@ public class MeusFilmesActivity extends AppCompatActivity {
         }else{
             progressBar.setVisibility(View.GONE);
             tv_sem_filmes.setVisibility(View.VISIBLE);
+            rv_meus_filmes.setVisibility(View.GONE);
         }
 
     }
@@ -231,10 +237,12 @@ public class MeusFilmesActivity extends AppCompatActivity {
         if(filmes != null){
             //Só por garantia este textview será escondido aqui
             tv_sem_filmes.setVisibility(View.GONE);
+            rv_meus_filmes.setVisibility(View.VISIBLE);
             adapter_filmes = new AdapterFilmes(filmes, this, R.layout.item_filme_poster);
             rv_meus_filmes.setAdapter(adapter_filmes);
 
         }else{
+            rv_meus_filmes.setVisibility(View.GONE);
             tv_sem_filmes.setVisibility(View.VISIBLE);
         }
 
