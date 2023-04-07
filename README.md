@@ -13,3 +13,5 @@ O carregamento dos filmes é feito consumindo os serviços da API gratuita do Th
 
 <h2>Links úteis</h2>
 <a href="https://play.google.com/store/apps/details?id=com.jv.meusfilmes">• Faça o download do app Android</a>
+<a href="https://www.themoviedb.org">• The Movie Data Base</a>
+
